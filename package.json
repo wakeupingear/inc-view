@@ -1,0 +1,22 @@
+{
+  "name": "inc-view",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willf668/inc-view.git"
+  },
+  "author": "Will Farhat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/willf668/inc-view/issues"
+  },
+  "homepage": "https://github.com/willf668/inc-view#readme",
+  "dependencies": {
+    "ws": "^7.4.6"
+  }
+}

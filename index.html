@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
 
-    <title>Inc View</title>
-    <meta
-      name="description"
-      content="An interactive viewfinder for HW Inc 2021"
-    />
-    <meta name="author" content="Will Farhat" />
+<head>
+  <meta charset="utf-8" />
 
-    <link rel="stylesheet" href="./styles.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
-  </head>
-  <script type="module" src="./node_modules/cross-storage/lib/client.js"></script>
-  <script type="text/javascript" src="./cookies.js"></script>
+  <title>Inc View</title>
+  <meta name="description" content="An interactive viewfinder for HW Inc 2021" />
+  <meta name="author" content="Will Farhat" />
 
-  <body>
-    PogChampia
-  </body>
-  <script>
-    window.onload = checkCookieExists();
-  </script>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet" />
+  <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
+</head>
+<script type="text/javascript" src="./scripts.js"></script>
+
+<body>
+  <div id="content">
+    <h1>Welcome! Please Log In</h1>
+    <form method="get">
+      <label for="fname">Enter your name:</label>
+      <input type="text" id="fname" name="fname">
+      <input type="button" onclick="setName(document.getElementById('fname').value)" value="Submit">
+    </form>
+  </div>
+</body>
+<script>
+  window.onload = checkCookieExists();
+</script>
+
 </html>

@@ -6,11 +6,11 @@ function checkCookieExists(){
             req.text().then(function(text){
                 if (text=="coach"||true){
                     console.log("Coach");
-                    document.getElementById("content").innerHTML="<object type='text/html' data='coach.html'></object>";
+                    document.getElementById("contentView").innerHTML="<object type='text/html' class='content' data='coach.html'></object>";
                 }
                 else if (text=="participant"){
                     console.log("Participant");
-                    document.getElementById("content").innerHTML="<object type='text/html' data='participant.html'></object>";
+                    document.getElementById("contentView").innerHTML="<object type='text/html' class='content' data='participant.html'></object>";
                 }
                 else console.log("Access denied");
             })

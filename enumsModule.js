@@ -1,4 +1,4 @@
-const packetType = Object.freeze(
+module.exports = packetType = Object.freeze(
     {
         "serverConnect": 1,
         "clientConnect": 2,

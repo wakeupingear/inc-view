@@ -18,6 +18,8 @@
   "homepage": "https://github.com/willf668/inc-view#readme",
   "dependencies": {
     "cross-storage": "^1.0.0",
+    "fs": "0.0.1-security",
+    "uuid": "^8.3.2",
     "ws": "^7.4.6"
   }
 }

@@ -14,13 +14,13 @@ const locationToName={
 };
 let defaultServer = "";
 
-function setClientViewing(socket, node) {  //Assign a client to a specific node
-    clientList[socket.uid].viewingNode = node;
+function setClientViewing(socket, location) {  //Assign a client to a specific node
+    clientList[socket.uid].viewingNode = location;
     console.log("setting view")
     const data = JSON.stringify({
         "header": packetType.clientStartViewing,
-        "location": serverList[node].location,
-        "name": locationToName[serverList[node].location]
+        "location": location,
+        "name": locationToName[location]
     });
     socket.send(data);
 }
@@ -30,8 +30,9 @@ function disconnect(socket) { //Socket disconnects
         const _location = serverList[socket.uid].location;
         if (defaultServer === _location) defaultServer = ""; //Reset defaultServer
         Object.keys(clientList).forEach(client => { //Disconnect clients from this node
-            if (clientList[client.uid].viewingNode === _location) {
-                setClientViewing(clientList[client.uid].socket, "");
+            if (clientList[client].viewingNode === _location) {
+                console.log("fasdsf")
+                setClientViewing(clientList[client].socket, "");
             }
         });
 
@@ -57,9 +58,10 @@ wss.on('connection', function (socket) {
                 delete data.header;
                 serverList[socket.uid] = data;
                 locationToServer[data.location] = socket.uid;
-                if ("default" in data) {
-                    defaultServer = socket.uid;
+                if ("default" in data||defaultServer==="") {
+                    defaultServer = data.location;
                     Object.keys(clientList).forEach(client => {
+                        console.log(clientList[client])
                         if (clientList[client].viewingNode === "") {
                             setClientViewing(clientList[client].socket, defaultServer);
                         }

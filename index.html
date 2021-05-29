@@ -19,14 +19,20 @@
 <body>
   <div id="content">
     <h1>Welcome! Please Log In</h1>
-    <form method="get">
-      <label for="fname">Enter your name:</label>
-      <input type="text" id="fname" name="fname">
-      <input type="button" onclick="setName(document.getElementById('fname').value)" value="Submit">
-    </form>
+    <div>
+      Enter your name
+      <input type="text" id="nameForm">
+    </div>
   </div>
 </body>
 <script>
+  document.getElementById('nameForm')
+    .addEventListener('keyup', function (event) {
+      if (event.code === 'Enter') {
+        event.preventDefault();
+        setName(document.getElementById('nameForm').value);
+      }
+    });
   window.onload = checkCookieExists();
 </script>
 

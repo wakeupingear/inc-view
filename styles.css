@@ -11,8 +11,9 @@
 
 body {
     background-color: var(--c_tan);
-    padding: 0px;
+    padding: 0;
     margin: 0;
+    border-radius: 0;
     color: var(--c_white);
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(-45deg, var(--c_tan), var(#839fd4), var(#839fd4), var(--c_darkTan));
@@ -38,12 +39,68 @@ html {
 }
 
 .content {
-    display:block;
+    display: block;
     width: 100%;
     height: 100vh;
 }
 
-#jitsiConferenceFrame0{
-    width:1000px;
-    height:1000px;
+#viewContent {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 100%;
+}
+
+#video {
+    width:100%;
+}
+
+#sidebar {
+    width:35vw;
+}
+
+.sidebarAnimaton{
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.opening{
+    animation-name: popIn;
+}
+
+.closing{
+    animation-name: popOut;
+}
+
+@keyframes popIn {
+    from {
+        width:10vw;
+    }
+    to {
+        width:35vw;
+    }
+}
+
+@keyframes popOut {
+    from {
+        width:35vw;
+    }
+    to {
+        width:10vw;
+    }
+}
+
+#closeButton{
+
+}
+
+#closeButton:hover{
+    cursor:pointer;
+}
+
+#closeButton img {
+    width: 30%;
+    display: inline-block;
+    float:right;
 }

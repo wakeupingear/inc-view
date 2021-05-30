@@ -1,16 +1,16 @@
 :root {
     --c_blue: #4281A4;
-    --c_green: #48A9A6;
+    --c_grey: #757372;
     --c_white: #E4DFDA;
     --c_tan: #D4B483;
     --c_darkTan: #b1d483;
-    --c_red: #C1666B;
+    --c_red: #a7373d;
     --font: 'Poppins';
     -webkit-backface-visibility: hidden;
 }
 
 body {
-    background-color: var(--c_tan);
+    background-color: var(--c_grey);
     padding: 0;
     margin: 0;
     border-radius: 0;
@@ -52,55 +52,68 @@ html {
 }
 
 #video {
-    width:100%;
+    width: 100%;
+    position: relative;
 }
 
 #sidebar {
-    width:35vw;
+    width: 35vw;
+    padding: 2vw;
 }
 
-.sidebarAnimaton{
+.sidebarAnimaton {
     animation-duration: 0.5s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
 }
 
-.opening{
+.opening {
     animation-name: popIn;
 }
 
-.closing{
+.closing {
     animation-name: popOut;
 }
 
 @keyframes popIn {
     from {
-        width:10vw;
+        width: 10vw;
     }
     to {
-        width:35vw;
+        width: 35vw;
     }
 }
 
 @keyframes popOut {
     from {
-        width:35vw;
+        width: 35vw;
     }
     to {
-        width:10vw;
+        width: 10vw;
     }
 }
 
-#closeButton{
-
-}
-
-#closeButton:hover{
-    cursor:pointer;
+#closeButton:hover {
+    cursor: pointer;
 }
 
 #closeButton img {
     width: 30%;
     display: inline-block;
-    float:right;
+    float: right;
+}
+
+.navButton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 2vw;
+    background-color: var(--c_red);
+    border-radius: 1vw;
+    text-align: center;
+    padding: 1vw;
+}
+
+.navButton:hover {
+    cursor: pointer;
 }

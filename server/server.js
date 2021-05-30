@@ -10,19 +10,19 @@ const serverList = {}; //uid => {location, adjacent[], default(OPTIONAL)}
 const clientList = {}; //uid => {viewingNode, socket}
 const locationToServer = {};
 const locationToName={
-    kutler2FBridge: "Kutler Bridge" 
+    kutler2FBridge: "Kutler Bridge" ,
+    kutlerVortex: "Kutler Vortex",
+    kutler2FSnacks: "Library Snack Table"
 };
 let defaultServer = "";
 
 function setClientViewing(socket, location) {  //Assign a client to a specific node
     clientList[socket.uid].viewingNode = location;
-    console.log("setting view")
-    const data = JSON.stringify({
-        "header": packetType.clientStartViewing,
-        "location": location,
-        "name": locationToName[location]
-    });
-    socket.send(data);
+    console.log("setting view");
+    const data=serverList[locationToServer[location]];
+    console.log(location)
+    data.header=packetType.clientStartViewing;
+    socket.send(JSON.stringify(data));
 }
 function disconnect(socket) { //Socket disconnects
     console.log("Disconnect");
@@ -31,7 +31,6 @@ function disconnect(socket) { //Socket disconnects
         if (defaultServer === _location) defaultServer = ""; //Reset defaultServer
         Object.keys(clientList).forEach(client => { //Disconnect clients from this node
             if (clientList[client].viewingNode === _location) {
-                console.log("fasdsf")
                 setClientViewing(clientList[client].socket, "");
             }
         });
@@ -56,12 +55,14 @@ wss.on('connection', function (socket) {
                 socket.isNode = true;
                 data.socket = socket;
                 delete data.header;
+                Object.keys(data.adjacent).forEach(adj => {
+                    data.adjacent[adj].name=locationToName[adj];
+                });
                 serverList[socket.uid] = data;
                 locationToServer[data.location] = socket.uid;
                 if ("default" in data||defaultServer==="") {
                     defaultServer = data.location;
                     Object.keys(clientList).forEach(client => {
-                        console.log(clientList[client])
                         if (clientList[client].viewingNode === "") {
                             setClientViewing(clientList[client].socket, defaultServer);
                         }
@@ -78,6 +79,14 @@ wss.on('connection', function (socket) {
                 }
                 if (defaultServer != "") { //Assign viewing to defaultServer
                     setClientViewing(socket, defaultServer);
+                }
+                break;
+            case packetType.clientRequestViewing:
+                if (data.location in locationToServer){
+                    setClientViewing(socket,data.location);
+                }
+                else {
+
                 }
                 break;
             default:

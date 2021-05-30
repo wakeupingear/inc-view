@@ -10,7 +10,7 @@ function positionButtons() {
 window.onresize = positionButtons;
 
 function connect() {
-    const ws = new WebSocket('ws://localhost:8000');
+    const ws = new WebSocket('ws://24.205.76.29:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");

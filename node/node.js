@@ -2,7 +2,7 @@ require("../enumsModule.js");
 
 function connect() {
     const WebSocket = require('ws');
-    const ws = new WebSocket('ws://localhost:8000');
+    const ws = new WebSocket('ws://24.205.76.29:8000');
     const config = require('./config.json');
 
     ws.onopen = function () {

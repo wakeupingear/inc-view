@@ -1,3 +1,5 @@
+let myUsername="";
+
 function checkCookieExists(){
     const username=localStorage.getItem("username");
     if (username!=""){
@@ -19,6 +21,7 @@ function checkCookieExists(){
 }
 
 function setName(username){
+    myUsername=username
     username=username.toLowerCase().replace(/\s/g, '');
     localStorage.setItem("username",username);
     checkCookieExists();

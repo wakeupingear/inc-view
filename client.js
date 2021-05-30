@@ -28,28 +28,30 @@ function connect() {
         ws.send(JSON.stringify(data));
     }
 
+    let jitsiWindow=-1;
     ws.onmessage = function (event) {
         _data = JSON.parse(event.data); //Parse data as a JS object
         switch (_data.header) {
             case packetType.clientStartViewing:
                 const vid = document.getElementById("video");
+                vid.innerHTML="";
                 if (_data.location != "") {
                     console.log("New room: " + _data.location);
 
                     const domain = 'meet.jit.si';
                     const options = {
                         roomName: _data.location,
-                        parentNode: vid
+                        parentNode: vid,
+                        userInfo:{
+                            displayName: myUsername
+                        }
                     };
-                    const api = new JitsiMeetExternalAPI(domain, options);
+                    jitsiWindow = new JitsiMeetExternalAPI(domain, options);
 
                     Object.keys(_data.adjacent).forEach(adj => {
                         vid.innerHTML += "<div class='navButton' data-x=" + _data.adjacent[adj].x + " data-y=" + _data.adjacent[adj].y + " onclick='requestRoomChange(\"" + adj + "\")'>" + _data.adjacent[adj].name + "</div>"
                     });
                     positionButtons();
-                }
-                else {
-                    vid.innerHTML = "";
                 }
                 break;
             default: break;

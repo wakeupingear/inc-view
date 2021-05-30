@@ -19,9 +19,19 @@ let defaultServer = "";
 function setClientViewing(socket, location) {  //Assign a client to a specific node
     clientList[socket.uid].viewingNode = location;
     console.log("setting view");
-    const data=serverList[locationToServer[location]];
-    console.log(location)
-    data.header=packetType.clientStartViewing;
+    const data=-1;
+    if (location!=""){
+        data=serverList[locationToServer[location]];
+        console.log(location)
+        data.header=packetType.clientStartViewing;
+        delete data.socket;
+        console.log(data)
+    }
+    else {
+        data={
+            header:packetType.clientStartViewing
+        }
+    }
     socket.send(JSON.stringify(data));
 }
 function disconnect(socket) { //Socket disconnects

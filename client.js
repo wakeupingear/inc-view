@@ -38,6 +38,7 @@ function connect() {
                 if (_data.location != "") {
                     console.log("New room: " + _data.location);
 
+                    const myUsername=localStorage.getItem("username");
                     const domain = 'meet.jit.si';
                     const options = {
                         roomName: _data.location,

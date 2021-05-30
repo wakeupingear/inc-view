@@ -1,7 +1,14 @@
 {
     "location":"kutler2FBridge",
     "adjacent":{
-        
+        "kutlerVortex":{
+            "x":5,
+            "y":50
+        },
+        "kutler2FSnacks":{
+            "x":70,
+            "y":50
+        }
     },
     "default":true
 }

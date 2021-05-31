@@ -4,7 +4,7 @@ function checkCookieExists() {
         fetch("http://willfarhat.com/incView/checkName.php?username=" + myUsername)
             .then(function (req) {
                 req.text().then(function (text) {
-                    if (text == "coach" || true) {
+                    if (text == "coach" ||true) {
                         console.log("Coach");
                         document.getElementById("contentView").innerHTML = "<object type='text/html' class='content' data='coach.html'></object>";
                     }

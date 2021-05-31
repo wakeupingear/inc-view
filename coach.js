@@ -12,6 +12,20 @@ function positionButtons() {
 window.onresize = positionButtons;
 
 function setMap(location) {
+    const loading = document.getElementById("loading");
+    const closeButton = document.getElementById("closeButton");
+    const mapHolder = document.getElementById("mapHolder");
+    if (location === "-1") {
+        closeButton.style.display = "none";
+        mapHolder.style.display = "none";
+        loading.style.display = "flex";
+    }
+    else {
+        closeButton.style.display = "flex";
+        mapHolder.style.display = "flex";
+        loading.style.display = "none";
+    }
+
     const list = document.getElementsByClassName("map");
     for (let i = 0; i < list.length; i++) {
         const mapFloor = list[i];
@@ -27,22 +41,22 @@ function setMap(location) {
 }
 setMap("-1");
 
-let buttonData={};
-let adjacentData={};
-let currentLocation="";
-function createButtons(){
+let buttonData = {};
+let adjacentData = {};
+let currentLocation = "";
+function createButtons() {
     const vid = document.getElementById("videoButtons");
-    vid.innerHTML="";
+    vid.innerHTML = "";
     Object.entries(buttonData).forEach(element => {
-        vid.innerHTML+=element;
+        vid.innerHTML += element;
     });
 }
 
-function setupButtonList(){
-    buttonData={};
+function setupButtonList() {
+    buttonData = {};
     Object.keys(adjacentData).forEach(adj => {
         if ("inactive" in layoutData[adj]) return;
-        buttonData[adj]="<div class='navButton " + layoutData[adj].color + "' data-x=" + adjacentData[adj].x + " data-y=" + adjacentData[adj].y + " onclick='requestRoomChange(\"" + adj + "\")'>" + layoutData[adj].name + "</div>";
+        buttonData[adj] = "<div class='navButton " + layoutData[adj].color + "' data-x=" + adjacentData[adj].x + " data-y=" + adjacentData[adj].y + " onclick='requestRoomChange(\"" + adj + "\")'>" + layoutData[adj].name + "</div>";
     });
     createButtons();
 }
@@ -53,13 +67,14 @@ function connect() {
     ws.onopen = function () {
         console.log("Connected to server");
         let _data = JSON.stringify({
-            header: packetType.clientConnect
+            header: packetType.clientConnect,
+            name: localStorage.getItem("username")
         });
         ws.send(_data);
     }
 
     requestRoomChange = function (location) { //Bad global variable! Needs ws ref tho so ¯\_(ツ)_/¯
-        if (location===currentLocation) return;
+        if (location === currentLocation) return;
         const data = {
             header: packetType.clientRequestViewing,
             location: location
@@ -73,8 +88,8 @@ function connect() {
         switch (_data.header) {
             case packetType.clientStartViewing:
                 const vid = document.getElementById("videoJitsi");
-                vid.innerHTML="";
-                currentLocation=_data.location;
+                vid.innerHTML = "";
+                currentLocation = _data.location;
                 if (currentLocation != "") {
                     console.log("New room: " + currentLocation);
 
@@ -88,15 +103,15 @@ function connect() {
                         }
                     };
                     jitsiWindow = new JitsiMeetExternalAPI(domain, options);
-                    
-                    adjacentData=_data.adjacent;
+
+                    adjacentData = _data.adjacent;
                     setupButtonList();
                     positionButtons();
                     setMap(currentLocation.match(/\d+/)[0]);
                 }
                 else {
                     setMap("-1");
-                    document.getElementById("videoJitsi").innerHTML="";
+                    document.getElementById("videoJitsi").innerHTML = "";
                 }
                 break;
             case packetType.nodeLayout:
@@ -105,10 +120,10 @@ function connect() {
                 const f2 = document.getElementById("layoutF2");
                 Object.keys(layoutData).forEach(location => {
                     let parent = f1;
-                    let _color=layoutData[location].color;
-                    if ("inactive" in layoutData[location]) _color="gray";
-                    if (location.indexOf("F2")!==-1) parent = f2;
-                    parent.innerHTML += "<div class='mapBox' style='top:" + layoutData[location].top + ";left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' onclick='requestRoomChange(\"" + location + "\");'><div class='tooltip'><span class='tooltiptext'>"+location+"</span></div></div>";
+                    let _color = layoutData[location].color;
+                    if ("inactive" in layoutData[location]) _color = "gray";
+                    if (location.indexOf("F2") !== -1) parent = f2;
+                    parent.innerHTML += "<div class='mapBox' style='top:" + layoutData[location].top + ";left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' onclick='requestRoomChange(\"" + location + "\");'><div class='tooltip'><span class='tooltiptext'>" + location + "</span></div></div>";
                 });
                 ws.send(JSON.stringify({ header: packetType.confirmLayout }));
                 break;
@@ -117,6 +132,11 @@ function connect() {
     };
 
     let retry = function (e) { //There's an infinite retry bug in here somewhere
+        if (currentLocation !== "") {
+            setMap("-1");
+            document.getElementById("videoJitsi").innerHTML = "";
+            currentLocation = "";
+        }
         setTimeout(function () {
             console.log("Disconnected. Retrying in 3s");
             connect();
@@ -132,7 +152,6 @@ let sidebarOpened = true;
 function setSidebarWidth() {
     const closeButton = document.getElementById("closeButton");
     const mapList = document.getElementsByClassName("map");
-    console.log(closeButton.classList);
     if (sidebarOpened) {
         bar.classList.remove("opening");
         bar.classList.add("closing");

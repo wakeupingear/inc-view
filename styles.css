@@ -9,33 +9,84 @@
     -webkit-backface-visibility: hidden;
 }
 
+div {
+    font-family: 'Poppins', sans-serif;
+}
+
 body {
-    background-color: var(--c_grey);
-    padding: 0;
+    background: linear-gradient(197deg, #fb7878, #d4ccc1, #a8afd9);
+    background-size: 600% 600%;
+    -webkit-animation: bg 8s ease infinite;
+    -moz-animation: bg 8s ease infinite;
+    -o-animation: bg 8s ease infinite;
+    animation: bg 8s ease infinite;
     margin: 0;
     border-radius: 0;
     color: var(--c_white);
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(-45deg, var(--c_tan), var(#839fd4), var(#839fd4), var(--c_darkTan));
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
 }
 
-@keyframes gradient {
+@-webkit-keyframes bg {
     0% {
-        background-position: 0% 50%;
+        background-position: 31% 0%
     }
     50% {
-        background-position: 100% 50%;
+        background-position: 70% 100%
     }
     100% {
-        background-position: 0% 50%;
+        background-position: 31% 0%
+    }
+}
+
+@-moz-keyframes bg {
+    0% {
+        background-position: 31% 0%
+    }
+    50% {
+        background-position: 70% 100%
+    }
+    100% {
+        background-position: 31% 0%
+    }
+}
+
+@-o-keyframes bg {
+    0% {
+        background-position: 31% 0%
+    }
+    50% {
+        background-position: 70% 100%
+    }
+    100% {
+        background-position: 31% 0%
+    }
+}
+
+@keyframes bg {
+    0% {
+        background-position: 31% 0%
+    }
+    50% {
+        background-position: 70% 100%
+    }
+    100% {
+        background-position: 31% 0%
     }
 }
 
 html {
     scroll-behavior: smooth;
     box-sizing: border-box;
+}
+
+#loading{
+    font-size: min(10vw,12vh);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .content {
@@ -101,7 +152,7 @@ html {
 }
 
 #closeButton {
-    background-color: var(--c_white);
+    background-color: var(--c_red);
     padding: 2vw;
     height: 10vh;
     display: flex;
@@ -135,8 +186,6 @@ html {
 #mapHolder {
     display: flex;
     text-align: center;
-    background-image: linear-gradient(var(--c_white), var(--c_white));
-    background-size: 0%;
     overflow: hidden;
     min-width: 0;
     min-height: 0;
@@ -280,12 +329,130 @@ html {
     visibility: visible;
 }
 
-.mapSwap{
-    width:100%;
-    height:4vw;
+.mapSwap {
+    width: 100%;
+    height: 4vw;
     background-color: var(--c_red);
 }
 
-.mapSwap:hover{
+.mapSwap:hover {
     cursor: pointer;
+}
+
+/* Participant view */
+
+#viewContentParticipant {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
+.header {
+    font-size: 3vw;
+    text-align: center;
+    width: 100%;
+}
+
+#contentHolder {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}
+
+#listHolder {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+}
+
+#resetFilter {
+    display: flex;
+    border-radius: 3vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#resetFilter:hover {
+    cursor: pointer;
+}
+
+.coachBox {
+    border-radius: 2vw;
+    background-color: var(--c_red);
+    width: min(60vw, 100%);
+    height: max(5vh, 60px);
+    margin: 1vw;
+    padding: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.coachBox:hover {
+    cursor: pointer;
+}
+
+.coachBoxTag {
+    border-radius: 1vw;
+    padding: 1vw;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.coachBoxTag:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+#coachInfoPanel {
+    background-color: var(--c_red);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 2vw 0 0 2vw;
+}
+
+#coachBio {
+    display: flex;
+    flex-direction: row;
+}
+
+#resetFilter {
+    background-color: var(--c_red);
+    width: 80%;
+    height: max(10vh, 60px);
+    display: none;
+}
+
+@keyframes coach-popIn {
+    from {
+        width: 0vw;
+    }
+    to {
+        width: 90%;
+    }
+}
+
+@keyframes coach-popOut {
+    from {
+        width: 90%;
+    }
+    to {
+        width: 0vw;
+    }
+}
+
+.coach-opening {
+    animation-name: coach-popIn;
+}
+
+.coach-closing {
+    animation-name: coach-popOut;
 }

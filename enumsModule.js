@@ -6,6 +6,8 @@ module.exports = packetType = Object.freeze(
         "clientRequestViewing": 4,
         "nodeLayout": 5,
         "confirmLayout": 6,
+        "participantConnect": 7,
+        "participantGetCoaches": 8,
 
         "heartbeat": 10
     });

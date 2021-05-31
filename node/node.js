@@ -25,7 +25,7 @@ function connect() {
         _data.header = packetType.serverConnect;
         _data = JSON.stringify(_data);
         ws.send(_data);
-        openMeeting();
+        if (false) openMeeting();
     }
 
     let retry = function (e) {

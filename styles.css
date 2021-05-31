@@ -49,6 +49,9 @@ html {
     flex-wrap: nowrap;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
 }
 
 #video {
@@ -58,7 +61,11 @@ html {
 
 #sidebar {
     width: 35vw;
-    padding: 2vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
 }
 
 .sidebarAnimaton {
@@ -76,21 +83,20 @@ html {
 }
 
 @keyframes popIn {
-    from {
-        width: 10vw;
-    }
-    to {
-        width: 35vw;
-    }
+    from {width: 10vw;}
+    to {width: 35vw;}
+}
+@keyframes popOut {
+    from {width: 35vw;}
+    to {width: 10vw;}
 }
 
-@keyframes popOut {
-    from {
-        width: 35vw;
-    }
-    to {
-        width: 10vw;
-    }
+#closeButton {
+    background-color: var(--c_white);
+    padding: 2vw;
+    height:10vh;
+    display: flex;
+    justify-content: center;
 }
 
 #closeButton:hover {
@@ -98,9 +104,9 @@ html {
 }
 
 #closeButton img {
-    width: 30%;
-    display: inline-block;
-    float: right;
+    display: block;
+    width: 10vw;
+    height: 10vw;
 }
 
 .navButton {
@@ -116,4 +122,55 @@ html {
 
 .navButton:hover {
     cursor: pointer;
+}
+
+#mapHolder {
+    display: flex;
+    text-align: center;
+    background-image: linear-gradient(var(--c_white),var(--c_white));
+    background-size: 0%;
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+@keyframes gradient-popIn {
+    from {height: 100vh;}
+    to {height: 10vh;}
+}
+@keyframes gradient-popOut {
+    from {height: 10vh;}
+    to {height: 100vh;}
+}
+.gradient-opening {animation-name: gradient-popIn;}
+.gradient-closing {animation-name: gradient-popOut;}
+
+@keyframes map-popIn {
+    from {
+        width: 0%;
+        height: 0%;
+    }
+    to {
+        width: 100%;
+        height: 100%;
+    }
+}
+@keyframes map-popOut {
+    from {
+        width: 100%;
+        height: 100%;
+    }
+    to {
+        width: 0%;
+        height: 0%;
+    }
+}
+.map-opening {animation-name: map-popIn;}
+.map-closing {animation-name: map-popOut;}
+
+.map {
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
 }

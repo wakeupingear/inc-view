@@ -1,5 +1,7 @@
 const WebSocket = require('ws');
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+const { send } = require('process');
 require("../enumsModule.js"); //Load the enum
 
 const wss = new WebSocket.Server({ port: 8000 }); //Start server
@@ -9,11 +11,10 @@ const bufLarge = Buffer.alloc(4096); //Large data buffer for JSON data
 const serverList = {}; //uid => {location, adjacent[], default(OPTIONAL)}
 const clientList = {}; //uid => {viewingNode, socket}
 const locationToServer = {};
-const locationToName={
-    kutler2FBridge: "Kutler Bridge" ,
-    kutlerVortex: "Kutler Vortex",
-    kutler2FSnacks: "Library Snack Table"
-};
+const layoutData=JSON.parse(fs.readFileSync('./layout.json'));
+Object.keys(layoutData).forEach(location => {
+    layoutData[location].inactive=true;
+});
 let defaultServer = "";
 
 function setClientViewing(socket, location) {  //Assign a client to a specific node
@@ -33,10 +34,18 @@ function setClientViewing(socket, location) {  //Assign a client to a specific n
     }
     socket.send(JSON.stringify(data));
 }
+function sendLayout(){
+    const data=JSON.stringify(layoutData);
+    Object.keys(clientList).forEach(client => {
+        clientList[client].socket.send(data);
+    });
+}
 function disconnect(socket) { //Socket disconnects
     console.log("Disconnect");
     if (socket.isNode) { //Node
         const _location = serverList[socket.uid].location;
+        layoutData[_location].inactive=true;
+        sendLayout();
         if (defaultServer === _location) defaultServer = ""; //Reset defaultServer
         Object.keys(clientList).forEach(client => { //Disconnect clients from this node
             if (clientList[client].viewingNode === _location) {
@@ -56,7 +65,7 @@ wss.on('connection', function (socket) {
     socket.uid = uuidv4(); //Unique socket id
     socket.isNode = false;
     socket.isClient = false;
-    socket.on('message', function (data, req) {
+    socket.on('message', function (data) {
         data = JSON.parse(data); //Parse data as a JS object
         switch (data.header) {
             case packetType.serverConnect: //Node connects
@@ -64,11 +73,10 @@ wss.on('connection', function (socket) {
                 socket.isNode = true;
                 data.socket = socket;
                 delete data.header;
-                Object.keys(data.adjacent).forEach(adj => {
-                    data.adjacent[adj].name=locationToName[adj];
-                });
                 serverList[socket.uid] = data;
                 locationToServer[data.location] = socket.uid;
+                delete layoutData[data.location].inactive;
+                sendLayout();
                 if ("default" in data||defaultServer==="") {
                     defaultServer = data.location;
                     Object.keys(clientList).forEach(client => {
@@ -86,6 +94,13 @@ wss.on('connection', function (socket) {
                     viewingNode: "",
                     socket: socket
                 }
+                data={
+                    header: packetType.nodeLayout,
+                    data: layoutData
+                }
+                socket.send(JSON.stringify(data));
+                break;
+            case packetType.confirmLayout:
                 if (defaultServer != "") { //Assign viewing to defaultServer
                     setClientViewing(socket, defaultServer);
                 }

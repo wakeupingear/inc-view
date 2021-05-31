@@ -1,3 +1,5 @@
+let layoutData = {};
+
 function positionButtons() {
     const list = document.getElementsByClassName("navButton");
     //const base=document.getElementById("largeVideoWrapper");
@@ -25,6 +27,25 @@ function setMap(location) {
 }
 setMap("-1");
 
+let buttonData={};
+let adjacentData={};
+let currentLocation="";
+function createButtons(){
+    const vid = document.getElementById("videoButtons");
+    vid.innerHTML="";
+    Object.entries(buttonData).forEach(element => {
+        vid.innerHTML+=element;
+    });
+}
+
+function setupButtonList(){
+    Object.keys(adjacentData).forEach(adj => {
+        if ("inactive" in layoutData[adj]) return;
+        buttonData[adj]="<div class='navButton " + layoutData[adj].color + "' data-x=" + adjacentData[adj].x + " data-y=" + adjacentData[adj].y + " onclick='requestRoomChange(\"" + adj + "\")'>" + layoutData[adj].name + "</div>";
+    });
+    createButtons();
+}
+
 function connect() {
     const ws = new WebSocket('ws://24.205.76.29:8000');
 
@@ -36,7 +57,8 @@ function connect() {
         ws.send(_data);
     }
 
-    requestRoomChange = function (location) { //Bad global variable! Needs ws ref tho
+    requestRoomChange = function (location) { //Bad global variable! Needs ws ref tho so ¯\_(ツ)_/¯
+        if (location===currentLocation) return;
         const data = {
             header: packetType.clientRequestViewing,
             location: location
@@ -49,31 +71,45 @@ function connect() {
         _data = JSON.parse(event.data); //Parse data as a JS object
         switch (_data.header) {
             case packetType.clientStartViewing:
-                const vid = document.getElementById("video");
-                vid.innerHTML = "";
-                if (_data.location != "") {
-                    console.log("New room: " + _data.location);
+                const vid = document.getElementById("videoJitsi");
+                currentLocation=_data.location;
+                if (currentLocation != "") {
+                    console.log("New room: " + currentLocation);
 
                     const myUsername = localStorage.getItem("username");
                     const domain = 'meet.jit.si';
                     const options = {
-                        roomName: _data.location,
+                        roomName: currentLocation,
                         parentNode: vid,
                         userInfo: {
                             displayName: myUsername
                         }
                     };
                     jitsiWindow = new JitsiMeetExternalAPI(domain, options);
-
-                    Object.keys(_data.adjacent).forEach(adj => {
-                        vid.innerHTML += "<div class='navButton' data-x=" + _data.adjacent[adj].x + " data-y=" + _data.adjacent[adj].y + " onclick='requestRoomChange(\"" + adj + "\")'>" + _data.adjacent[adj].name + "</div>"
-                    });
+                    
+                    buttonData={};
+                    adjacentData=_data.adjacent;
+                    setupButtonList();
                     positionButtons();
-                    setMap(_data.location.match(/\d+/)[0]);
+                    setMap(currentLocation.match(/\d+/)[0]);
                 }
                 else {
                     setMap("-1");
+                    document.getElementById("videoJitsi").innerHTML="";
                 }
+                break;
+            case packetType.nodeLayout:
+                layoutData = _data.data;
+                const f1 = document.getElementById("layoutF1");
+                const f2 = document.getElementById("layoutF2");
+                Object.keys(layoutData).forEach(location => {
+                    let parent = f1;
+                    let _color=layoutData[location].color;
+                    if ("inactive" in layoutData[location]) _color="gray";
+                    if (location.indexOf("F2")!==-1) parent = f2;
+                    parent.innerHTML += "<div class='mapBox' style='top:" + layoutData[location].top + ";left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' onclick='requestRoomChange(\"" + location + "\");'><div class='tooltip'><span class='tooltiptext'>"+location+"</span></div></div>";
+                });
+                ws.send(JSON.stringify({ header: packetType.confirmLayout }));
                 break;
             default: break;
         }
@@ -103,7 +139,7 @@ function setSidebarWidth() {
         closeButton.classList.add("gradient-closing");
         for (let i = 0; i < mapList.length; i++) {
             const mapFloor = mapList[i];
-            if (mapFloor.dataset.active==="true") {
+            if (mapFloor.dataset.active === "true") {
                 mapFloor.classList.remove("map-opening");
                 mapFloor.classList.add("map-closing");
             }
@@ -117,7 +153,7 @@ function setSidebarWidth() {
         closeButton.classList.add("gradient-opening");
         for (let i = 0; i < mapList.length; i++) {
             const mapFloor = mapList[i];
-            if (mapFloor.dataset.active==="true") {
+            if (mapFloor.dataset.active === "true") {
                 mapFloor.classList.remove("map-closing");
                 mapFloor.classList.add("map-opening");
             }

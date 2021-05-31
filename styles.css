@@ -83,18 +83,27 @@ html {
 }
 
 @keyframes popIn {
-    from {width: 10vw;}
-    to {width: 35vw;}
+    from {
+        width: 10vw;
+    }
+    to {
+        width: 35vw;
+    }
 }
+
 @keyframes popOut {
-    from {width: 35vw;}
-    to {width: 10vw;}
+    from {
+        width: 35vw;
+    }
+    to {
+        width: 10vw;
+    }
 }
 
 #closeButton {
     background-color: var(--c_white);
     padding: 2vw;
-    height:10vh;
+    height: 10vh;
     display: flex;
     justify-content: center;
 }
@@ -114,7 +123,6 @@ html {
     top: 0;
     left: 0;
     font-size: 2vw;
-    background-color: var(--c_red);
     border-radius: 1vw;
     text-align: center;
     padding: 1vw;
@@ -127,24 +135,41 @@ html {
 #mapHolder {
     display: flex;
     text-align: center;
-    background-image: linear-gradient(var(--c_white),var(--c_white));
+    background-image: linear-gradient(var(--c_white), var(--c_white));
     background-size: 0%;
     overflow: hidden;
     min-width: 0;
     min-height: 0;
     box-sizing: border-box;
+    flex-shrink: 0;
+    flex-grow: 1;
 }
 
 @keyframes gradient-popIn {
-    from {height: 100vh;}
-    to {height: 10vh;}
+    from {
+        height: 100vh;
+    }
+    to {
+        height: 10vh;
+    }
 }
+
 @keyframes gradient-popOut {
-    from {height: 10vh;}
-    to {height: 100vh;}
+    from {
+        height: 10vh;
+    }
+    to {
+        height: 100vh;
+    }
 }
-.gradient-opening {animation-name: gradient-popIn;}
-.gradient-closing {animation-name: gradient-popOut;}
+
+.gradient-opening {
+    animation-name: gradient-popIn;
+}
+
+.gradient-closing {
+    animation-name: gradient-popOut;
+}
 
 @keyframes map-popIn {
     from {
@@ -156,6 +181,7 @@ html {
         height: 100%;
     }
 }
+
 @keyframes map-popOut {
     from {
         width: 100%;
@@ -166,11 +192,90 @@ html {
         height: 0%;
     }
 }
-.map-opening {animation-name: map-popIn;}
-.map-closing {animation-name: map-popOut;}
+
+.map-opening {
+    animation-name: map-popIn;
+}
+
+.map-closing {
+    animation-name: map-popOut;
+}
 
 .map {
     overflow: hidden;
     min-width: 0;
     min-height: 0;
+}
+
+.mapLayout {
+    position: relative;
+    height: 100%;
+}
+
+.mapBox {
+    position: absolute;
+}
+
+.mapBox:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.green {
+    background-color: green;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.purple {
+    background-color: purple;
+}
+
+.aqua {
+    background-color: aqua;
+}
+
+.orange {
+    background-color: orange;
+}
+
+.pink {
+    background-color: pink;
+}
+
+.red {
+    background-color: red;
+}
+
+.gold {
+    background-color: gold;
+}
+
+.gray {
+    background-color: lightgray;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

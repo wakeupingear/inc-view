@@ -279,3 +279,13 @@ html {
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+.mapSwap{
+    width:100%;
+    height:4vw;
+    background-color: var(--c_red);
+}
+
+.mapSwap:hover{
+    cursor: pointer;
+}

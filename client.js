@@ -39,6 +39,7 @@ function createButtons(){
 }
 
 function setupButtonList(){
+    buttonData={};
     Object.keys(adjacentData).forEach(adj => {
         if ("inactive" in layoutData[adj]) return;
         buttonData[adj]="<div class='navButton " + layoutData[adj].color + "' data-x=" + adjacentData[adj].x + " data-y=" + adjacentData[adj].y + " onclick='requestRoomChange(\"" + adj + "\")'>" + layoutData[adj].name + "</div>";
@@ -72,6 +73,7 @@ function connect() {
         switch (_data.header) {
             case packetType.clientStartViewing:
                 const vid = document.getElementById("videoJitsi");
+                vid.innerHTML="";
                 currentLocation=_data.location;
                 if (currentLocation != "") {
                     console.log("New room: " + currentLocation);
@@ -87,7 +89,6 @@ function connect() {
                     };
                     jitsiWindow = new JitsiMeetExternalAPI(domain, options);
                     
-                    buttonData={};
                     adjacentData=_data.adjacent;
                     setupButtonList();
                     positionButtons();

@@ -456,3 +456,18 @@ html {
 .coach-closing {
     animation-name: coach-popOut;
 }
+
+#setStorage{
+    border-radius: 2vw;
+    position: absolute;
+    top: 3vh;
+    left: 2vw;
+    display: flex;
+    background-color: var(--c_blue);
+    padding: 1vw;
+    font-size: 1.5vw;
+}
+
+#setStorage:hover{
+    cursor: pointer;
+}

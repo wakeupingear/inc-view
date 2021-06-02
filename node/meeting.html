@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="../styles.css" />
+<script src='https://meet.jit.si/external_api.js'></script>
+<div>
+    <div id="video" style="height: 100vh;"></div>
+    <script>
+        const vid = document.getElementById("video");
+        const domain = 'meet.jit.si';
+        const options = {
+            roomName: localStorage.getItem("location"),
+            parentNode: vid,
+            userInfo: {
+                displayName: "Harvard-Westlake"
+            }
+        };
+        jitsiWindow = new JitsiMeetExternalAPI(domain, options);
+    </script>
+</div>

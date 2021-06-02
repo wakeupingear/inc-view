@@ -19,23 +19,23 @@ Object.keys(layoutData).forEach(location => {
 });
 
 http.createServer(function (req, res) {
-	res.writeHead(200, {'Content-Type': 'text/plain'});
-	res.write("whoa there bucko. this isn't your typical website, so how 'bout we all take a step back and forget any of this happened?");
-	res.end();
-  }).listen(8080);
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.write("whoa there bucko. this isn't your typical website, so how 'bout we all take a step back and forget any of this happened?");
+    res.end();
+}).listen(8080);
 
 let coachData = {};
 function loadCoaches() {
     let coachPath = "./coachesTest.json";
     const now = new Date();
     if (now.getMonth() === 6 && now.getDay() > 13 && now.getDay() < 20) coachPath = "./coachesDay" + (now.getDay() - 13) + ".json";
-    let _data=JSON.parse(fs.readFileSync(coachPath));
-    coachData={};
-    let list=Object.keys(_data).sort();
+    let _data = JSON.parse(fs.readFileSync(coachPath));
+    coachData = {};
+    let list = Object.keys(_data).sort();
     list.forEach(coach => {
-        coachData[coach]=_data[coach];
-        if (!("photo" in coachData[coach])) coachData[coach].photo="https://www.gravatar.com/avatar/"+uuidv4();
-        if (!("bio" in coachData[coach])) coachData[coach].bio="Bio goes here";
+        coachData[coach] = _data[coach];
+        if (!("photo" in coachData[coach])) coachData[coach].photo = "https://www.gravatar.com/avatar/" + uuidv4();
+        if (!("bio" in coachData[coach])) coachData[coach].bio = "Bio goes here";
     });
 
     let timeUntil = 15 - (now.getMinutes() % 15);
@@ -55,7 +55,6 @@ let defaultServer = "";
 
 function setClientViewing(socket, location) {  //Assign a client to a specific node
     coachClientList[socket.uid].viewingNode = location;
-    console.log("setting view");
     let data = -1;
     if (location != "") {
         data = serverList[locationToServer[location]];
@@ -71,9 +70,12 @@ function setClientViewing(socket, location) {  //Assign a client to a specific n
     socket.send(JSON.stringify(data));
 }
 function sendLayout() {
-    const data = JSON.stringify(layoutData);
+    const _data = JSON.stringify({
+        header: packetType.nodeLayout,
+        data: layoutData
+    });
     Object.keys(coachClientList).forEach(client => {
-        coachClientList[client].socket.send(data);
+        coachClientList[client].socket.send(_data);
     });
 }
 function disconnect(socket) { //Socket disconnects
@@ -92,10 +94,10 @@ function disconnect(socket) { //Socket disconnects
         delete locationToServer[_location];
         delete serverList[socket.uid];
     }
-    else if (socket.clientType===1) { //Coach
+    else if (socket.clientType === 1) { //Coach
         delete coachClientList[socket.uid];
     }
-    else if (socket.clientType===2) { //Participant
+    else if (socket.clientType === 2) { //Participant
         delete participantClientList[socket.uid];
     }
 }
@@ -110,19 +112,27 @@ wss.on('connection', function (socket) {
             case packetType.serverConnect: //Node connects
                 console.log("Node added");
                 socket.isNode = true;
-                data.socket = socket;
-                delete data.header;
-                serverList[socket.uid] = data;
+                if (socket.uid in serverList) {
+                    layoutData[serverList[socket.uid].location].inactive = true;
+                    delete locationToServer[serverList[socket.uid].location];
+                    delete serverList[socket.uid];
+                }
+                serverList[socket.uid] = {
+                    location: data.location,
+                    socket: socket
+                };
                 locationToServer[data.location] = socket.uid;
                 delete layoutData[data.location].inactive;
                 sendLayout();
-                if ("default" in data || defaultServer === "") {
+                if ("default" in layoutData[data.location] || defaultServer === "") {
                     defaultServer = data.location;
-                    Object.keys(coachClientList).forEach(client => {
-                        if (coachClientList[client].viewingNode === "") {
-                            setClientViewing(coachClientList[client].socket, defaultServer);
-                        }
-                    });
+                    setTimeout(function () {
+                        Object.keys(coachClientList).forEach(client => {
+                            if (coachClientList[client].viewingNode === "") {
+                                setClientViewing(coachClientList[client].socket, defaultServer);
+                            }
+                        });
+                    }, 1000)
                 }
                 console.log("Server: " + defaultServer)
                 break;
@@ -139,19 +149,7 @@ wss.on('connection', function (socket) {
                     data: layoutData
                 }
                 socket.send(JSON.stringify(data));
-                break;
-            case packetType.confirmLayout:
-                if (defaultServer != "") { //Assign viewing to defaultServer
-                    setClientViewing(socket, defaultServer);
-                }
-                break;
-            case packetType.clientRequestViewing:
-                if (data.location in locationToServer) {
-                    setClientViewing(socket, data.location);
-                }
-                else {
-
-                }
+                setClientViewing(socket, defaultServer);
                 break;
             case packetType.participantConnect:
                 console.log("Participant connected");

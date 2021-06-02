@@ -1,36 +1,28 @@
-const open = require('open');
-const liveServer = require("live-server");
-require("../enumsModule.js");
-
-function openMeeting() {
-    const params = {
-        port: 8181, // Set the server port. Defaults to 8080.
-        open: false, // When false, it won't load your browser by default.
-        wait: 1000, // Waits for all changes, before reloading. Defaults to 0 sec.
-        mount: [['/components', './node_modules']], // Mount a directory to a route.
-        cors: true
-    };
-    liveServer.start(params);
-    open("./index.html");
+let locationStr=localStorage.getItem("location");
+function setLocation(newLocation){
+    locationStr=newLocation;
+    localStorage.setItem("location",locationStr);
 }
+if (locationStr===null) setLocation("libraryF2Bridge");
 
 function connect() {
-    const config = require('./config.json');
-    const WebSocket = require('ws');
     const ws = new WebSocket('ws://52.35.162.61:8000');
     //const ws = new WebSocket('ws://24.205.76.29:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");
-        let _data = config;
-        _data.header = packetType.serverConnect;
-        _data = JSON.stringify(_data);
-        ws.send(_data);
-        if (false) openMeeting();
+        const _data = {
+            header: packetType.serverConnect,
+            location: locationStr
+        }
+        ws.send(JSON.stringify(_data));
+        document.getElementById("videoLocation").innerHTML="<object type='text/html' class='content' data='./meeting.html'></object>";
+        document.getElementById("loading").style.display="none";
     }
 
     let retry = function (e) {
-        console.log("not working")
+        document.getElementById("loading").style.display="flex";
+        document.getElementById("videoLocation").innerHTML="";
         setTimeout(function () {
             connect();
         }, 3000);

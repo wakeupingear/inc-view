@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
 
-    <title>Inc View - Meeting</title>
+    <title>Inc View - Host</title>
     <meta name="description" content="Meeting Host" />
     <meta name="author" content="Will Farhat" />
 
@@ -18,25 +18,17 @@
 <script src='https://meet.jit.si/external_api.js'></script>
 
 <body>
-    <div id="video" style="height: 100vh;"></div>
+    <div id="contentView">
+        <div id="loading" onclick="setName(prompt('Enter this camera\'s Location!\n(check the GitHub for a chart of valid names)'));">
+            <div id="loadingText">Connecting...</div>
+        </div>
+        <div id="setStorage">
+            Change Location
+        </div>
+        <div id="videoLocation"></div>
+    </div>
 </body>
-<script>
-    const data = {};
-    fetch("http://127.0.0.1:8181/config.json", { mode: "cors" })
-        .then(response => response.json())
-        .then(function (data) {
-            console.log(data)
-            const vid = document.getElementById("video");
-            const domain = 'meet.jit.si';
-            const options = {
-                roomName: data.location,
-                parentNode: vid,
-                userInfo: {
-                    displayName: "Harvard-Westlake"
-                }
-            };
-            jitsiWindow = new JitsiMeetExternalAPI(domain, options);
-        });
-</script>
+<script type="text/javascript" src="../enums.js"></script>
+<script type="text/javascript" src="./node.js"></script>
 
 </html>

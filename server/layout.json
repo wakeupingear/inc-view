@@ -1,11 +1,25 @@
 {
+    "":{
+
+    },
     "libraryF2Bridge": {
         "name": "Kutler Bridge",
         "color": "green",
         "top":"35%",
         "left":"40%",
         "height":"10%",
-        "width":"25%"
+        "width":"25%",
+        "adjacent":{
+            "kutlerF2Vortex":{
+                "x":5,
+                "y":50
+            },
+            "kutlerF2Snacks":{
+                "x":70,
+                "y":50
+            }
+        },
+        "default":true
     },
     "kutlerF2Vortex": {
         "name": "Venture Vortex",

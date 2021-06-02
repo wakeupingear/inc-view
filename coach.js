@@ -42,7 +42,6 @@ function setMap(location) {
 setMap("-1");
 
 let buttonData = {};
-let adjacentData = {};
 let currentLocation = "";
 function createButtons() {
     const vid = document.getElementById("videoButtons");
@@ -54,15 +53,16 @@ function createButtons() {
 
 function setupButtonList() {
     buttonData = {};
-    Object.keys(adjacentData).forEach(adj => {
+    Object.keys(layoutData[currentLocation].adjacent).forEach(adj => {
         if ("inactive" in layoutData[adj]) return;
-        buttonData[adj] = "<div class='navButton " + layoutData[adj].color + "' data-x=" + adjacentData[adj].x + " data-y=" + adjacentData[adj].y + " onclick='requestRoomChange(\"" + adj + "\")'>" + layoutData[adj].name + "</div>";
+        buttonData[adj] = "<div class='navButton " + layoutData[adj].color + "' data-x=" + layoutData[currentLocation].adjacent[adj].x + " data-y=" + layoutData[currentLocation].adjacent[adj].y + " onclick='setRoomChange(\"" + adj + "\")'>" + layoutData[adj].name + "</div>";
     });
     createButtons();
 }
 
 function connect() {
     const ws = new WebSocket('ws://52.35.162.61:8000');
+    //const ws = new WebSocket('ws://24.205.76.29:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");
@@ -73,47 +73,41 @@ function connect() {
         ws.send(_data);
     }
 
-    requestRoomChange = function (location) { //Bad global variable! Needs ws ref tho so ¯\_(ツ)_/¯
-        if (location === currentLocation) return;
-        const data = {
-            header: packetType.clientRequestViewing,
-            location: location
+    let jitsiWindow = -1;
+    setRoomChange = function (_location) { //Bad global variable! Needs ws ref tho so ¯\_(ツ)_/¯
+        if (_location!==""&&(currentLocation === _location||"inactive" in layoutData[_location])) {
+            return;
         }
-        ws.send(JSON.stringify(data));
+        const vid = document.getElementById("videoJitsi");
+        vid.innerHTML = "";
+        currentLocation = _location.replace(/\s/g, '');
+        if (currentLocation !== "") {
+            console.log("New room: " + currentLocation);
+
+            const myUsername = localStorage.getItem("username");
+            const domain = 'meet.jit.si';
+            const options = {
+                roomName: currentLocation,
+                parentNode: vid,
+                userInfo: {
+                    displayName: myUsername
+                }
+            };
+            jitsiWindow = new JitsiMeetExternalAPI(domain, options);
+
+            setupButtonList();
+            positionButtons();
+            setMap(currentLocation.match(/\d+/)[0]);
+        }
+        else {
+            alert("yee")
+            setMap("-1");
+        }
     }
 
-    let jitsiWindow = -1;
     ws.onmessage = function (event) {
         _data = JSON.parse(event.data); //Parse data as a JS object
         switch (_data.header) {
-            case packetType.clientStartViewing:
-                const vid = document.getElementById("videoJitsi");
-                vid.innerHTML = "";
-                currentLocation = _data.location;
-                if (currentLocation != "") {
-                    console.log("New room: " + currentLocation);
-
-                    const myUsername = localStorage.getItem("username");
-                    const domain = 'meet.jit.si';
-                    const options = {
-                        roomName: currentLocation,
-                        parentNode: vid,
-                        userInfo: {
-                            displayName: myUsername
-                        }
-                    };
-                    jitsiWindow = new JitsiMeetExternalAPI(domain, options);
-
-                    adjacentData = _data.adjacent;
-                    setupButtonList();
-                    positionButtons();
-                    setMap(currentLocation.match(/\d+/)[0]);
-                }
-                else {
-                    setMap("-1");
-                    document.getElementById("videoJitsi").innerHTML = "";
-                }
-                break;
             case packetType.nodeLayout:
                 layoutData = _data.data;
                 console.log(layoutData)
@@ -124,9 +118,12 @@ function connect() {
                     let _color = layoutData[location].color;
                     if ("inactive" in layoutData[location]) _color = "gray";
                     if (location.indexOf("F2") !== -1) parent = f2;
-                    parent.innerHTML += "<div class='mapBox' style='top:" + layoutData[location].top + ";left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' onclick='requestRoomChange(\"" + location + "\");'><div class='tooltip'><span class='tooltiptext'>" + location + "</span></div></div>";
+                    parent.innerHTML += "<div class='mapBox' style='top:" + layoutData[location].top + ";left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' onclick='setRoomChange(\"" + location + "\");'><div class='tooltip'><span class='tooltiptext'>" + location + "</span></div></div>";
                 });
                 ws.send(JSON.stringify({ header: packetType.confirmLayout }));
+                break;
+            case packetType.clientStartViewing:
+                setRoomChange(_data.location);
                 break;
             default: break;
         }

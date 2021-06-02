@@ -155,7 +155,7 @@ html {
     background-color: var(--c_red);
     padding: 2vw;
     height: 10vh;
-    display: flex;
+    display: none;
     justify-content: center;
 }
 
@@ -184,7 +184,7 @@ html {
 }
 
 #mapHolder {
-    display: flex;
+    display: none; /*start hidden*/
     text-align: center;
     overflow: hidden;
     min-width: 0;

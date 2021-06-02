@@ -116,6 +116,7 @@ function connect() {
                 break;
             case packetType.nodeLayout:
                 layoutData = _data.data;
+                console.log(layoutData)
                 const f1 = document.getElementById("layoutF1");
                 const f2 = document.getElementById("layoutF2");
                 Object.keys(layoutData).forEach(location => {

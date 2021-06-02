@@ -2,8 +2,8 @@
   "name": "inc-view",
   "version": "1.0.0",
   "description": "",
-  "engines":{
-    "node":">=0.12"
+  "engines": {
+    "node": ">=0.12"
   },
   "main": "server/server.js",
   "scripts": {
@@ -22,6 +22,7 @@
   "dependencies": {
     "cross-storage": "^1.0.0",
     "fs": "0.0.1-security",
+    "http": "0.0.1-security",
     "live-server": "^1.2.1",
     "open": "^8.2.0",
     "uuid": "^8.3.2",

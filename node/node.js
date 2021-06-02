@@ -17,7 +17,8 @@ function openMeeting() {
 function connect() {
     const config = require('./config.json');
     const WebSocket = require('ws');
-    const ws = new WebSocket('ws://24.205.76.29:8000');
+    const ws = new WebSocket('ws://52.35.162.61:8000');
+    //const ws = new WebSocket('ws://24.205.76.29:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");
@@ -29,6 +30,7 @@ function connect() {
     }
 
     let retry = function (e) {
+        console.log("not working")
         setTimeout(function () {
             connect();
         }, 3000);

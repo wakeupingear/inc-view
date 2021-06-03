@@ -492,6 +492,7 @@ html {
     background-color: var(--c_blue);
     padding:1vw;
     font-size: 2vw;
+    display:inline;
 }
 
 #emailButton:hover{

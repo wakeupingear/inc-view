@@ -55,14 +55,14 @@ function setupButtonList() {
     buttonData = {};
     Object.keys(layoutData[currentLocation].adjacent).forEach(adj => {
         if ("inactive" in layoutData[adj]) return;
-        buttonData[adj] = "<div class='navButton " + layoutData[adj].color + "' data-x=" + layoutData[currentLocation].adjacent[adj].x + " data-y=" + layoutData[currentLocation].adjacent[adj].y + " onclick='setRoomChange(\"" + adj + "\")'>" + layoutData[adj].name + "</div>";
+        buttonData[adj] = "<div class='navButton hoverable " + layoutData[adj].color + "' data-x=" + layoutData[currentLocation].adjacent[adj].x + " data-y=" + layoutData[currentLocation].adjacent[adj].y + " onclick='setRoomChange(\"" + adj + "\")'>" + layoutData[adj].name + "</div>";
     });
     createButtons();
 }
 
 function connect() {
-    //const ws = new WebSocket('ws://52.35.162.61:8000');
-    const ws = new WebSocket('ws://24.205.76.29:8000');
+    const ws = new WebSocket('ws://52.35.162.61:8000');
+    //const ws = new WebSocket('ws://24.205.76.29:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");
@@ -117,7 +117,7 @@ function connect() {
                     let _color = layoutData[location].color;
                     if ("inactive" in layoutData[location]) _color = "gray";
                     if (location.indexOf("F2") !== -1) parent = f2;
-                    parent.innerHTML += "<div class='mapBox' style='top:" + layoutData[location].top + ";left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' onclick='setRoomChange(\"" + location + "\");'><div class='tooltip'><span class='tooltiptext'>" + location + "</span></div></div>";
+                    parent.innerHTML += "<div class='mapBox hoverable' style='top:" + layoutData[location].top + ";left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' onclick='setRoomChange(\"" + location + "\");'><div class='tooltip'><span class='tooltiptext'>" + location + "</span></div></div>";
                 });
                 ws.send(JSON.stringify({ header: packetType.confirmLayout }));
                 break;

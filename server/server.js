@@ -21,6 +21,8 @@ Object.keys(layoutData).forEach(location => {
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
+    host: 'smtp.gmail.com',
+    secure: true,
     auth: {
         user: 'wfwebsitemanager',
         pass: 'potato55'

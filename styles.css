@@ -159,10 +159,6 @@ html {
     justify-content: center;
 }
 
-#closeButton:hover {
-    cursor: pointer;
-}
-
 #closeButton img {
     display: block;
     width: 10vw;
@@ -177,10 +173,6 @@ html {
     border-radius: 1vw;
     text-align: center;
     padding: 1vw;
-}
-
-.navButton:hover {
-    cursor: pointer;
 }
 
 #mapHolder {
@@ -265,11 +257,6 @@ html {
     position: absolute;
 }
 
-.mapBox:hover {
-    cursor: pointer;
-    opacity: 0.5;
-}
-
 .green {
     background-color: green;
 }
@@ -335,10 +322,6 @@ html {
     background-color: var(--c_red);
 }
 
-.mapSwap:hover {
-    cursor: pointer;
-}
-
 /* Participant view */
 
 #viewContentParticipant {
@@ -377,10 +360,6 @@ html {
     justify-content: center;
 }
 
-#resetFilter:hover {
-    cursor: pointer;
-}
-
 .coachBox {
     border-radius: 2vw;
     background-color: var(--c_red);
@@ -394,10 +373,6 @@ html {
     font-size: 1.5vw;
 }
 
-.coachBox:hover {
-    cursor: pointer;
-}
-
 .coachBoxTag {
     border-radius: 0.5vw;
     padding: 0.5vw;
@@ -405,11 +380,6 @@ html {
     display: flex;
     align-items: center;
     font-size: 1vw;
-}
-
-.coachBoxTag:hover {
-    cursor: pointer;
-    opacity: 0.5;
 }
 
 #coachInfoPanel {
@@ -470,6 +440,7 @@ html {
 
 #coachPhoto img{
     border-radius: 3vw;
+    width:12vw;
 }
 
 #setStorage{
@@ -483,10 +454,6 @@ html {
     font-size: 1.5vw;
 }
 
-#setStorage:hover{
-    cursor: pointer;
-}
-
 #emailButton{
     border-radius: 1vw;
     background-color: var(--c_blue);
@@ -495,6 +462,7 @@ html {
     display:inline;
 }
 
-#emailButton:hover{
+.hoverable:hover{
     cursor: pointer;
+    opacity: 0.6;
 }

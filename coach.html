@@ -4,7 +4,7 @@
         <div id="loadingText">Connecting...</div>
     </div>
     <div id="sidebar" class="sidebarAnimaton">
-        <div id="closeButton" class="sidebarAnimaton" onclick="setSidebarWidth()">
+        <div id="closeButton" class="sidebarAnimaton hoverable" onclick="setSidebarWidth()">
             <!--<img src="assets/OriginalLogo-IncRED.png">-->
         </div>
         <div id="mapHolder" class="sidebarAnimaton">
@@ -12,8 +12,8 @@
                 <h1>Floor 1</h1><div class="mapSwap" onclick="setMap('F2')"></div>
                 <div id="layoutF1" class="mapLayout"></div>
             </div>
-            <div class="map sidebarAnimaton" id="mapF2">
-                <h1>Floor 2</h1><div class="mapSwap" onclick="setMap('F1')"></div>
+            <div class="map sidebarAnimaton hoverable" id="mapF2">
+                <h1>Floor 2</h1><div class="mapSwap hoverable" onclick="setMap('F1')"></div>
                 <div id="layoutF2" class="mapLayout"></div>
             </div>
         </div>

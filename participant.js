@@ -76,6 +76,7 @@ let retry = -1;
 function connect() {
     const ws = new WebSocket('ws://52.35.162.61:8000');
     //const ws = new WebSocket('ws://24.205.76.29:8000');
+    //const ws = new WebSocket('ws://localhost:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");
@@ -93,10 +94,10 @@ function connect() {
                 coachData = _data.data;
                 coachListDiv.innerHTML = "";
                 Object.keys(coachData).forEach(coach => {
-                    let str = "<div class='coachBox' onclick='openCoachPanel(\"" + coach + "\")'";
+                    let str = "<div class='coachBox hoverable' onclick='openCoachPanel(\"" + coach + "\")'";
                     str += ">" + coach;
                     coachData[coach].tags.forEach(function (tag) {
-                        str += "<div class='coachBoxTag " + tagData[tag].color + "' ";
+                        str += "<div class='coachBoxTag hoverable " + tagData[tag].color + "' ";
                         //str+="data-tag='"+tag+"' ";
                         str += "onclick='filterCoaches(\"" + tagData[tag].name + "\")' ";
                         str += "><div>" + tagData[tag].name + "</div></div>";

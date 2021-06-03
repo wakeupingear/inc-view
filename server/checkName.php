@@ -1,6 +1,6 @@
 <?php
 $USERNAME=$_GET['username'];
-$handle = fopen("participants.txt", "r");
+$handle = fopen("../participants.txt", "r");
 if ($handle) {
     while (($line = fgets($handle)) !== false) {
         if ($USERNAME==$line){
@@ -10,7 +10,7 @@ if ($handle) {
     }
     fclose($handle);
 }
-$handle = fopen("coaches.txt", "r");
+$handle = fopen("../coaches.txt", "r");
 if ($handle) {
     while (($line = fgets($handle)) !== false) {
         if ($USERNAME==$line){

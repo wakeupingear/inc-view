@@ -8,6 +8,7 @@ const packetType = Object.freeze(
         "confirmLayout": 6,
         "participantConnect": 7,
         "participantGetCoaches": 8,
+        "participantRequestCoach": 9,
 
         "heartbeat": 10
     });

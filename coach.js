@@ -100,7 +100,6 @@ function connect() {
             setMap(currentLocation.match(/\d+/)[0]);
         }
         else {
-            alert("yee")
             setMap("-1");
         }
     }

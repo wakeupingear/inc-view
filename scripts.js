@@ -6,7 +6,7 @@ function checkCookieExists() {
         fetch("http://willfarhat.com/inc-view/server/checkName.php?username=" + myUsername)
             .then(function (req) {
                 req.text().then(function (text) {
-                    if (text == "coach" ||true) {
+                    if (text == "coach") {
                         console.log("Coach");
                         document.getElementById("contentView").innerHTML = "<object type='text/html' class='content' data='coach.html'></object>";
                         setButton.style.display="flex";

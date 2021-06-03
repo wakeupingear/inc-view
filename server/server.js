@@ -3,6 +3,7 @@ const fs = require('fs');
 const http = require('http');
 const { v4: uuidv4 } = require('uuid');
 const { send } = require('process');
+const nodemailer = require("nodemailer");
 require("../enumsModule.js"); //Load the enum
 
 const wss = new WebSocket.Server({ port: 8000 }); //Start server
@@ -16,6 +17,14 @@ const locationToServer = {};
 const layoutData = JSON.parse(fs.readFileSync("./layout.json"));
 Object.keys(layoutData).forEach(location => {
     layoutData[location].inactive = true;
+});
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'wfwebsitemanager',
+        pass: 'potato55'
+    }
 });
 
 http.createServer(function (req, res) {
@@ -163,6 +172,26 @@ wss.on('connection', function (socket) {
                     data: coachData
                 }
                 socket.send(JSON.stringify(data));
+                break;
+            case packetType.participantRequestCoach:
+                var mailOptions = {
+                    from: 'wfwebsitemanager@gmail.com',
+                    to: 'willf668@gmail.com',
+                    //cc: 'zach@tinyheadedkingdom.com',
+                    subject: 'HW Inc View - ' + data.name + " is asking for help!",
+                    text:  "Hello,\n\n"+data.name+"'s team has requested your help!"
+                };
+                if (data.msg!=="") mailOptions.text+="\n\n'"+data.msg+"'";
+                mailOptions.text+="\n\nTo join, click here: http://incview.com/";
+                mailOptions.text+="\n\nThanks!\n-The Inc Team";
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
                 break;
             default:
                 break;

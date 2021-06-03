@@ -386,11 +386,12 @@ html {
     background-color: var(--c_red);
     width: min(60vw, 100%);
     height: max(5vh, 60px);
-    margin: 1vw;
+    margin: 0.5vw;
     padding: 1vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-size: 1.5vw;
 }
 
 .coachBox:hover {
@@ -398,11 +399,12 @@ html {
 }
 
 .coachBoxTag {
-    border-radius: 1vw;
-    padding: 1vw;
+    border-radius: 0.5vw;
+    padding: 0.5vw;
     text-align: center;
     display: flex;
     align-items: center;
+    font-size: 1vw;
 }
 
 .coachBoxTag:hover {
@@ -417,11 +419,20 @@ html {
     flex-direction: column;
     overflow: hidden;
     border-radius: 2vw 0 0 2vw;
+    height:0%;
+    width:0%;
+    padding-top: 1vw;
+    padding-bottom: 2vw;
+    font-size: 1.5vw;
 }
 
 #coachBio {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    padding:2vw;
 }
 
 #resetFilter {
@@ -457,6 +468,10 @@ html {
     animation-name: coach-popOut;
 }
 
+#coachPhoto img{
+    border-radius: 3vw;
+}
+
 #setStorage{
     border-radius: 2vw;
     position: absolute;
@@ -469,5 +484,16 @@ html {
 }
 
 #setStorage:hover{
+    cursor: pointer;
+}
+
+#emailButton{
+    border-radius: 1vw;
+    background-color: var(--c_blue);
+    padding:1vw;
+    font-size: 2vw;
+}
+
+#emailButton:hover{
     cursor: pointer;
 }

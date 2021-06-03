@@ -30,13 +30,3 @@ function setName(username) {
     localStorage.setItem("username", username);
     checkCookieExists();
 }
-
-function requestCoach(coach) {
-    fetch("http://willfarhat.com/incView/requestCoach.php?coach=" + coach + "&name=" + localStorage.getItem("username")).then(response => response.json())
-        .then(function (data) {
-            console.log("Email sent");
-        })
-        .catch(function (e) {
-            console.log("Error - email not sent");
-        });
-}

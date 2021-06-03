@@ -21,10 +21,10 @@ const tagData = {
 const panel = document.getElementById("coachInfoPanel");
 let panelOpened = "";
 function setPanelWidth(coachName) {
-    if (panelOpened==coachName) {
+    if (panelOpened == coachName) {
         panel.classList.remove("coach-opening");
         panel.classList.add("coach-closing");
-        panelOpened="";
+        panelOpened = "";
         return false;
     }
     else {
@@ -37,42 +37,45 @@ function setPanelWidth(coachName) {
 
 function openCoachPanel(coachName) {
     if (setPanelWidth(coachName)) {
-        document.getElementById("coachName").innerHTML="<h1>"+coachName+"</h1>";
-        let photo=document.getElementById("coachPhoto");
-        photo.innerHTML="<img src='"+coachData[coachName].photo+"'>";
-        let text=document.getElementById("coachText");
-        text.innerHTML=coachData[coachName].bio;
+        document.getElementById("coachName").innerHTML = "<h1>" + coachName + "</h1>";
+        let photo = document.getElementById("coachPhoto");
+        photo.innerHTML = "<img src='" + coachData[coachName].photo + "'>";
+        let text = document.getElementById("coachText");
+        text.innerHTML = coachData[coachName].bio;
     }
 }
 
-let filterApplied=false;
+let filterApplied = false;
 function filterCoaches(filter) {
     event.stopPropagation();
     let coachList = document.getElementsByClassName("coachBox");
-    const reset=document.getElementById("resetFilter");
-    filterApplied=(filter!=="");
-    if (filterApplied){
-        reset.style.display="inline";
+    const reset = document.getElementById("resetFilter");
+    filterApplied = (filter !== "");
+    if (filterApplied) {
+        reset.style.display = "inline";
     }
     else {
-        reset.style.display="none";
+        reset.style.display = "none";
     }
 
     for (let i = 0; i < coachList.length; i++) {
         const coachBox = coachList[i];
-        if (coachBox.innerHTML.indexOf(filter)===-1){
-            coachBox.style.display="none";
+        if (coachBox.innerHTML.indexOf(filter) === -1) {
+            coachBox.style.display = "none";
         }
         else {
-            coachBox.style.display="flex";
+            coachBox.style.display = "flex";
         }
     }
 }
 
+const swearRX=new RegExp("\\b(fuck|shit|piss|nigg|hell|cunt|fag)\\b","i");
 const coachListDiv = document.getElementById("coachList");
+let requestCoach = -1;
+let retry = -1;
 function connect() {
-    const ws = new WebSocket('ws://52.35.162.61:8000');
-    //const ws = new WebSocket('ws://24.205.76.29:8000');
+    //const ws = new WebSocket('ws://52.35.162.61:8000');
+    const ws = new WebSocket('ws://24.205.76.29:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");
@@ -95,8 +98,8 @@ function connect() {
                     coachData[coach].tags.forEach(function (tag) {
                         str += "<div class='coachBoxTag " + tagData[tag].color + "' ";
                         //str+="data-tag='"+tag+"' ";
-                        str+="onclick='filterCoaches(\""+tagData[tag].name+"\")' ";
-                        str+="><div>" + tagData[tag].name + "</div></div>";
+                        str += "onclick='filterCoaches(\"" + tagData[tag].name + "\")' ";
+                        str += "><div>" + tagData[tag].name + "</div></div>";
                     });
                     str += "</div>";
                     coachListDiv.innerHTML += str;
@@ -106,7 +109,20 @@ function connect() {
         }
     };
 
-    let retry = function (e) { //There's an infinite retry bug in here somewhere
+    requestCoach = function (msg) {
+        if (msg==null) return;
+        if (swearRX.test(msg)){
+            alert("Please don't use foul language. These coaches have volunteered their time to help you out, so please respect that.");
+        }
+        else ws.send(JSON.stringify({
+            header:packetType.participantRequestCoach,
+            name: localStorage.getItem("username"),
+            coachName: panelOpened,
+            msg: msg
+        }));
+    }
+
+    retry = function (e) { //There's an infinite retry bug in here somewhere
         setTimeout(function () {
             console.log("Disconnected. Retrying in 3s");
             connect();

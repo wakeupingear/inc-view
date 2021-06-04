@@ -79,8 +79,8 @@ html {
     box-sizing: border-box;
 }
 
-#loading{
-    font-size: min(10vw,12vh);
+#loading {
+    font-size: min(10vw, 12vh);
     position: absolute;
     display: flex;
     justify-content: center;
@@ -93,6 +93,7 @@ html {
     display: block;
     width: 100%;
     height: 100vh;
+    overflow: hidden;
 }
 
 #viewContent {
@@ -176,7 +177,8 @@ html {
 }
 
 #mapHolder {
-    display: none; /*start hidden*/
+    display: none;
+    /*start hidden*/
     text-align: center;
     overflow: hidden;
     min-width: 0;
@@ -389,8 +391,8 @@ html {
     flex-direction: column;
     overflow: hidden;
     border-radius: 2vw 0 0 2vw;
-    height:0%;
-    width:0%;
+    height: 0%;
+    width: 0%;
     padding-top: 1vw;
     padding-bottom: 2vw;
     font-size: 1.5vw;
@@ -402,7 +404,7 @@ html {
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
-    padding:2vw;
+    padding: 2vw;
 }
 
 #resetFilter {
@@ -438,12 +440,12 @@ html {
     animation-name: coach-popOut;
 }
 
-#coachPhoto img{
+#coachPhoto img {
     border-radius: 3vw;
-    width:12vw;
+    width: 12vw;
 }
 
-#setStorage{
+#setStorage {
     border-radius: 2vw;
     position: absolute;
     top: 3vh;
@@ -454,15 +456,43 @@ html {
     font-size: 1.5vw;
 }
 
-#emailButton{
+#emailButton {
     border-radius: 1vw;
     background-color: var(--c_blue);
-    padding:1vw;
+    padding: 1vw;
     font-size: 2vw;
-    display:inline;
+    display: inline;
 }
 
-.hoverable:hover{
+.hoverable:hover {
     cursor: pointer;
     opacity: 0.6;
+}
+
+#titleScreen {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+#titleHeader {
+    display: flex;
+    font-size: 10vw;
+    width: 100%;
+    justify-content: center;
+    padding: 5vw;
+}
+
+#titleHeader img {
+    width: 15vw;
+}
+
+#setStorageTitle {
+    border-radius: 2vw;
+    display: inline-block;
+    background-color: var(--c_blue);
+    padding: 1vw;
+    font-size: max(3vw,6vh);
+    width: max-content;
 }

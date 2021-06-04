@@ -21,21 +21,19 @@
     Change Name
   </div>
   <div class="content" id="contentView">
-    <h1>Welcome! Please Log In</h1>
-    <div>
-      Enter your name
-      <input type="text" id="nameForm">
+    <div id="titleScreen">
+      <div id="titleHeader">
+        <img src="assets/OriginalLogo-IncRED.png" class="hoverable"
+          onclick="window.open('https://inc.hw.com','_blank');">
+        nc View
+      </div>
+      <div id="setStorageTitle" class="hoverable" onclick="setName(prompt('Enter your name!'));">
+        Login
+      </div>
     </div>
   </div>
 </body>
 <script>
-  document.getElementById('nameForm')
-    .addEventListener('keyup', function (event) {
-      if (event.code === 'Enter') {
-        event.preventDefault();
-        setName(document.getElementById('nameForm').value);
-      }
-    });
   window.onload = checkCookieExists();
 </script>
 

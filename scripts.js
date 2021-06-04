@@ -7,6 +7,7 @@ function checkCookieExists() {
             .then(function (req) {
                 req.text().then(function (text) {
                     console.log(text)
+                    text=""
                     if (text == "coach") {
                         console.log("Coach");
                         document.getElementById("contentView").innerHTML = "<object type='text/html' class='content' data='coach.html'></object>";

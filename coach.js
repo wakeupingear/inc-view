@@ -61,8 +61,8 @@ function setupButtonList() {
 }
 
 function connect() {
-    //const ws = new WebSocket('ws://52.35.162.61:8000');
-    const ws = new WebSocket('ws://24.205.76.29:8000');
+    const ws = new WebSocket('ws://52.35.162.61:8000');
+    //const ws = new WebSocket('ws://24.205.76.29:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");

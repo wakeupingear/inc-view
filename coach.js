@@ -61,8 +61,8 @@ function setupButtonList() {
 }
 
 function connect() {
-    const ws = new WebSocket('ws://52.35.162.61:8000');
-    //const ws = new WebSocket('ws://24.205.76.29:8000');
+    //const ws = new WebSocket('ws://52.35.162.61:8000');
+    const ws = new WebSocket('ws://24.205.76.29:8000');
 
     ws.onopen = function () {
         console.log("Connected to server");
@@ -75,7 +75,7 @@ function connect() {
 
     let jitsiWindow = -1;
     setRoomChange = function (_location) { //Bad global variable! Needs ws ref tho so ¯\_(ツ)_/¯
-        if (_location!==""&&(currentLocation === _location||"inactive" in layoutData[_location])) {
+        if (_location !== "" && (currentLocation === _location || "inactive" in layoutData[_location])) {
             return;
         }
         const vid = document.getElementById("videoJitsi");
@@ -109,7 +109,7 @@ function connect() {
         switch (_data.header) {
             case packetType.nodeLayout:
                 layoutData = _data.data;
-                console.log(layoutData)
+                console.log(layoutData);
                 const f1 = document.getElementById("layoutF1");
                 const f2 = document.getElementById("layoutF2");
                 Object.keys(layoutData).forEach(location => {
@@ -123,6 +123,11 @@ function connect() {
                 break;
             case packetType.clientStartViewing:
                 setRoomChange(_data.location);
+                break;
+            case packetType.coachRequested:
+                alert(_data)
+                buttonData[_data.room] = "<div class='navButton hoverable " + layoutData[_data.room].color + "' data-x=50 data-y=0 onclick='setRoomChange(\"" + _data.room + "\")'>" + _data.name + " is asking for help!</div>";
+                createButtons();
                 break;
             default: break;
         }

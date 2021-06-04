@@ -11,10 +11,11 @@ const buf = Buffer.alloc(512); //Standard data buffer
 const bufLarge = Buffer.alloc(4096); //Large data buffer for JSON data
 
 const serverList = {}; //uid => {location, adjacent[], default(OPTIONAL)}
-const coachClientList = {}; //uid => {viewingNode, socket}
-const participantClientList = {}; //uid => {viewingNode, socket, name}
+const coachClientList = {}; //uid => {viewingNode, socket, name}
+const participantClientList = {}; //uid => { socket, name}
 const locationToServer = {};
 const layoutData = JSON.parse(fs.readFileSync("./layout.json"));
+const participantLocations = JSON.parse(fs.readFileSync("./participantLocations.json"));
 Object.keys(layoutData).forEach(location => {
     layoutData[location].inactive = true;
 });
@@ -176,22 +177,34 @@ wss.on('connection', function (socket) {
                 socket.send(JSON.stringify(data));
                 break;
             case packetType.participantRequestCoach:
-                var mailOptions = {
+                const room = participantLocations[data.name];
+                const mailOptions = {
                     from: 'wfwebsitemanager@gmail.com',
                     to: 'willf668@gmail.com',
                     //cc: 'zach@tinyheadedkingdom.com',
                     subject: 'HW Inc View - ' + data.name + " is asking for help!",
-                    text:  "Hello,\n\n"+data.name+"'s team has requested your help!"
+                    text: "Hello,\n\n" + data.name + "'s team has requested your help!"
                 };
-                if (data.msg!=="") mailOptions.text+="\n\n'"+data.msg+"'";
-                mailOptions.text+="\n\nTo join, click here: http://incview.com/";
-                mailOptions.text+="\n\nThanks!\n-The Inc Team";
+                if (data.msg !== "") mailOptions.text += "\n\n'" + data.msg + "'";
+                mailOptions.text += "\n\nTo join, click here: http://incview.com?room=" + room;
+                mailOptions.text += "\n\nThanks!\n-The Inc Team";
 
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         console.log(error);
                     } else {
                         console.log('Email sent: ' + info.response);
+                    }
+                });
+
+                Object.values(coachClientList).forEach(coach => {
+                    if (room!==coach.viewingNode&&coach.name === data.coachName.toLowerCase().replace(/\s/g, '')) {
+                        console.log("sending buton")
+                        coach.socket.send(JSON.stringify({
+                            header: packetType.coachRequested,
+                            room: room,
+                            name: data.name
+                        }));
                     }
                 });
                 break;

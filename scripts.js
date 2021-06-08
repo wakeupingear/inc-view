@@ -3,7 +3,7 @@ function checkCookieExists() {
     const setButton=document.getElementById("setStorage");
     setButton.style.display="none";
     if (myUsername != "") {
-        fetch("http://willfarhat.com/inc-view/server/checkName.php?username=" + myUsername)
+        fetch("http://localhost:8080?username="+myUsername+"&answer=false",{mode:"no-cors"})
             .then(function (req) {
                 req.text().then(function (text) {
                     if (text == "coach") {

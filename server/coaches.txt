@@ -1,46 +1,31 @@
-joemama
-willfarhat
-jackyzhang
-hopehsieh
-gradyramberg
-avaweinrot
-rustommalhotra
-carinavillanova
-mayamathur
-matthewko
-roblevin
-brookelevin
-hopehsieh
-alexchon
-emmalimor
-jeffsnapp
-jimpatterson
-mikemcginley
-evanhamilton
-virtual
-jondamico
-jonathandamico
-justinpark
-iancinnamon
-tylerkim
-lucasgelfond
-zachschwartz
-kalikayap
-nickabouzeid
-natashacase
-cocokaleel
-evankeare
-zachgoren
-alexpopof
-erinlessin
-austinkatz
-jackiephillips
-zaakirahdaniels
-walterwang
-carokrissman
-cameronschiller
-mattglick
-tarlinray
-annabarber
-zacharybohn
-mollieberger
+Joe Mama
+Will Farhat
+Jacky Zhang
+Ava Weinrot
+Alex Chon
+Maya Mathur
+Rustom Malhotra
+Brooke Levin
+Emma Limor
+Carina Villanova
+Grady Ramberg
+Hope Hsieh
+Matthew Ko
+Kathryn Lin
+Rob Levin
+Mike McGinley
+Evan Hamilton
+Jon Damico
+Tyler Kim
+Zach Schwartz
+Natasha Case
+Justin Park
+Kalika Yap
+Nick Abouzeid
+Evan Keare
+Coco Kaleel
+Zach Goren
+Zaakirah Daniels
+Erin Lessin
+Lucas Gelfond
+Tarlin Ray

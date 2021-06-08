@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const fs = require('fs');
 const http = require('http');
 const { v4: uuidv4 } = require('uuid');
-const { send } = require('process');
+const readline = require('readline');
 const nodemailer = require("nodemailer");
 require("../enumsModule.js"); //Load the enum
 
@@ -30,17 +30,13 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-http.createServer(function (req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.write("whoa there bucko. this isn't your typical website, so how 'bout we all take a step back and forget any of this happened?");
-    res.end();
-}).listen(8080);
-
+let participantData = {};
 let coachData = {};
-function loadCoaches() {
-    let coachPath = "./coachesTest.json";
+function loadPeople() {
+    let coachPath = "./coaches.json";
     const now = new Date();
     if (now.getMonth() === 6 && now.getDay() > 13 && now.getDay() < 20) coachPath = "./coachesDay" + (now.getDay() - 13) + ".json";
+    participantData = JSON.parse(fs.readFileSync("./participants.json"));
     let _data = JSON.parse(fs.readFileSync(coachPath));
     coachData = {};
     let list = Object.keys(_data).sort();
@@ -58,10 +54,38 @@ function loadCoaches() {
         now.getHours(), now.getMinutes() + timeUntil, now.getSeconds() // ...at 00:00:00 hours
     );
     setTimeout(function () {
-        loadCoaches();
+        loadPeople();
     }, tomorrow.getTime() - now.getTime());
 }
-loadCoaches();
+loadPeople();
+
+/*
+async function processLineByLine() {
+    const obj = {};
+    let list = [];
+    const rl = readline.createInterface({
+        input: fs.createReadStream('coaches.txt'),
+        crlfDelay: Infinity
+    });
+    for await (const line of rl) {
+        const key = "\"" + line.toLowerCase().replace(" ", "") + "\""
+        obj[key] = { name: "\"" + line + "\"", email: "", tags: [] };
+    }
+
+    console.log(obj)
+}
+processLineByLine();
+*/
+http.createServer(function (req, res) {
+    const urlParams = new URLSearchParams(req.url);
+    const username = urlParams.get("/?username");
+    let text="unknown";
+    if (username in participantData) text="participant";
+    else if (username in coachData) text="coach";
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.write(text);
+    res.end();
+}).listen(8080);
 
 let defaultServer = "";
 
@@ -198,7 +222,7 @@ wss.on('connection', function (socket) {
                 });
 
                 Object.values(coachClientList).forEach(coach => {
-                    if (room!==coach.viewingNode&&coach.name === data.coachName.toLowerCase().replace(/\s/g, '')) {
+                    if (room !== coach.viewingNode && coach.name === data.coachName.toLowerCase().replace(/\s/g, '')) {
                         console.log("sending buton")
                         coach.socket.send(JSON.stringify({
                             header: packetType.coachRequested,

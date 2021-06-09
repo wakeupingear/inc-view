@@ -7,7 +7,6 @@ const readline = require('readline');
 const nodemailer = require("nodemailer");
 require("../enumsModule.js"); //Load the enum
 
-const wss = new WebSocket.Server({ port: 8000 }); //Start server
 const buf = Buffer.alloc(512); //Standard data buffer
 const bufLarge = Buffer.alloc(4096); //Large data buffer for JSON data
 
@@ -78,11 +77,17 @@ async function processLineByLine() {
 processLineByLine();
 */
 
-const options = {
+const secureServer = https.createServer({
     key: fs.readFileSync('site.key'),
     cert: fs.readFileSync('site.cert')
-  };
-https.createServer(options,function (req, res) {
+});
+
+const wss = new WebSocket.Server({
+    server: secureServer,
+    port:8080
+});
+
+https.createServer(secureServer, function (req, res) {
     const headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET",

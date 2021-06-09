@@ -5,6 +5,7 @@ function checkCookieExists() {
     if (myUsername !== "" && myUsername !== null) {
         //fetch("http://localhost:8080?username=" + myUsername)
         fetch("https://52.35.162.61:8443?username=" + myUsername)
+        //fetch("https://24.205.76.29:8443?username=" + myUsername)
             .then(function (req) {
                 req.text().then(function (text) {
                     console.log(text)

@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const fs = require('fs');
+const http = require('http');
 const https = require('https');
 const { v4: uuidv4 } = require('uuid');
 const readline = require('readline');
@@ -88,13 +89,13 @@ https.createServer(options,function (req, res) {
         "Access-Control-Max-Age": 2592000, // 30 days
     };
     const urlParams = new URLSearchParams(req.url);
-    const username = urlParams.get("/?username").replace(" ", "");
+    const username = urlParams.get("/?username");
     let text = "unknown";
-    console.log(username in participantData)
     if (username in participantData) text = "participant";
     else if (username in coachData) text = "coach";
     res.writeHead(200, headers);
     res.end(text);
+    console.log(text)
 }).listen(8443);
 
 let defaultServer = "";

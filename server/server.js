@@ -77,14 +77,19 @@ async function processLineByLine() {
 processLineByLine();
 */
 http.createServer(function (req, res) {
+    const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+        "Access-Control-Max-Age": 2592000, // 30 days
+    };
     const urlParams = new URLSearchParams(req.url);
-    const username = urlParams.get("/?username");
-    let text="unknown";
-    if (username in participantData) text="participant";
-    else if (username in coachData) text="coach";
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write(text);
-    res.end();
+    const username = urlParams.get("/?username").replace(" ", "");
+    let text = "unknown";
+    console.log(username in participantData)
+    if (username in participantData) text = "participant";
+    else if (username in coachData) text = "coach";
+    res.writeHead(200, headers);
+    res.end(text);
 }).listen(8080);
 
 let defaultServer = "";

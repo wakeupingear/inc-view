@@ -3,10 +3,11 @@ function checkCookieExists() {
     const setButton = document.getElementById("setStorage");
     setButton.style.display = "none";
     if (myUsername !== "" && myUsername !== null) {
-        //fetch("http://localhost:8080?username=" + myUsername)
-        fetch("https://52.35.162.61:8080?username=" + myUsername)
+        fetch("http://localhost:8080?username=" + myUsername)
+        //fetch("https://52.35.162.61:8080?username=" + myUsername)
             .then(function (req) {
                 req.text().then(function (text) {
+                    console.log(text)
                     if (text == "coach") {
                         console.log("Coach");
                         document.getElementById("contentView").innerHTML = "<object type='text/html' class='content' data='coach.html'></object>";

@@ -1,6 +1,6 @@
 const WebSocket = require('ws');
 const fs = require('fs');
-const http = require('http');
+const https = require('https');
 const { v4: uuidv4 } = require('uuid');
 const readline = require('readline');
 const nodemailer = require("nodemailer");
@@ -76,7 +76,12 @@ async function processLineByLine() {
 }
 processLineByLine();
 */
-http.createServer(function (req, res) {
+
+const options = {
+    key: fs.readFileSync('site.key'),
+    cert: fs.readFileSync('site.cert')
+  };
+https.createServer(options,function (req, res) {
     const headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
@@ -90,7 +95,7 @@ http.createServer(function (req, res) {
     else if (username in coachData) text = "coach";
     res.writeHead(200, headers);
     res.end(text);
-}).listen(8080);
+}).listen(443);
 
 let defaultServer = "";
 

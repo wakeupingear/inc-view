@@ -77,17 +77,22 @@ async function processLineByLine() {
 processLineByLine();
 */
 
-const secureServer = https.createServer({
+const options = {
     key: fs.readFileSync('site.key'),
     cert: fs.readFileSync('site.cert')
+};
+let secureServer = https.createServer(options, (req, res) => {
+    res.writeHead(200);
+    res.end(index);
 });
-
+secureServer.addListener('upgrade', function (req, res, head) { console.log('UPGRADE:', req.url) });
+secureServer.on('error', function (err) { console.error(err) });
+secureServer.listen(8000);
 const wss = new WebSocket.Server({
-    server: secureServer,
-    port:8080
+    server: secureServer
 });
 
-https.createServer(secureServer, function (req, res) {
+https.createServer(options, function (req, res) {
     const headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET",

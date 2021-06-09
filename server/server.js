@@ -44,6 +44,8 @@ function loadPeople() {
         coachData[coach] = _data[coach];
         if (!("photo" in coachData[coach])) coachData[coach].photo = "https://www.gravatar.com/avatar/" + uuidv4();
         if (!("bio" in coachData[coach])) coachData[coach].bio = "Bio goes here";
+        if (!("email" in coachData[coach])) coachData[coach].email = "willf668@gmail.com";
+        if (!("tags" in coachData[coach])) coachData[coach].tags = [];
     });
 
     let timeUntil = 15 - (now.getMinutes() % 15);

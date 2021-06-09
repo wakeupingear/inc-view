@@ -95,7 +95,7 @@ function connect() {
                 coachListDiv.innerHTML = "";
                 Object.keys(coachData).forEach(coach => {
                     let str = "<div class='coachBox hoverable' onclick='openCoachPanel(\"" + coach + "\")'";
-                    str += ">" + coach;
+                    str += ">" + coachData[coach].name;
                     coachData[coach].tags.forEach(function (tag) {
                         str += "<div class='coachBoxTag hoverable " + tagData[tag].color + "' ";
                         //str+="data-tag='"+tag+"' ";

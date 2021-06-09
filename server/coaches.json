@@ -1,157 +1,100 @@
 {
     "joemama": {
-        "name": "Joe Mama",
-        "email": "",
-        "tags": []
+        "name": "Joe Mama"
     },
     "willfarhat": {
         "name": "Will Farhat",
-        "email": "",
-        "tags": []
+        "tags": [
+            "aero",
+            "cs",
+            "crypto"
+        ]
     },
     "jackyzhang": {
-        "name": "Jacky Zhang",
-        "email": "",
-        "tags": []
+        "name": "Jacky Zhang"
     },
     "avaweinrot": {
-        "name": "Ava Weinrot",
-        "email": "",
-        "tags": []
+        "name": "Ava Weinrot"
     },
     "alexchon": {
-        "name": "Alex Chon",
-        "email": "",
-        "tags": []
+        "name": "Alex Chon"
     },
     "mayamathur": {
-        "name": "Maya Mathur",
-        "email": "",
-        "tags": []
+        "name": "Maya Mathur"
     },
     "rustommalhotra": {
-        "name": "Rustom Malhotra",
-        "email": "",
-        "tags": []
+        "name": "Rustom Malhotra"
     },
     "brookelevin": {
-        "name": "Brooke Levin",
-        "email": "",
-        "tags": []
+        "name": "Brooke Levin"
     },
     "emmalimor": {
-        "name": "Emma Limor",
-        "email": "",
-        "tags": []
+        "name": "Emma Limor"
     },
     "carinavillanova": {
-        "name": "Carina Villanova",
-        "email": "",
-        "tags": []
+        "name": "Carina Villanova"
     },
     "gradyramberg": {
-        "name": "Grady Ramberg",
-        "email": "",
-        "tags": []
+        "name": "Grady Ramberg"
     },
     "hopehsieh": {
-        "name": "Hope Hsieh",
-        "email": "",
-        "tags": []
+        "name": "Hope Hsieh"
     },
     "matthewko": {
-        "name": "Matthew Ko",
-        "email": "",
-        "tags": []
+        "name": "Matthew Ko"
     },
     "kathrynlin": {
-        "name": "Kathryn Lin",
-        "email": "",
-        "tags": []
+        "name": "Kathryn Lin"
     },
     "roblevin": {
-        "name": "Rob Levin",
-        "email": "",
-        "tags": []
+        "name": "Rob Levin"
     },
     "mikemcginley": {
-        "name": "Mike McGinley",
-        "email": "",
-        "tags": []
+        "name": "Mike McGinley"
     },
     "evanhamilton": {
-        "name": "Evan Hamilton",
-        "email": "",
-        "tags": []
+        "name": "Evan Hamilton"
     },
     "jondamico": {
-        "name": "Jon Damico",
-        "email": "",
-        "tags": []
+        "name": "Jon Damico"
     },
     "tylerkim": {
-        "name": "Tyler Kim",
-        "email": "",
-        "tags": []
+        "name": "Tyler Kim"
     },
     "zachschwartz": {
-        "name": "Zach Schwartz",
-        "email": "",
-        "tags": []
+        "name": "Zach Schwartz"
     },
     "natashacase": {
-        "name": "Natasha Case",
-        "email": "",
-        "tags": []
+        "name": "Natasha Case"
     },
     "justinpark": {
-        "name": "Justin Park",
-        "email": "",
-        "tags": []
+        "name": "Justin Park"
     },
     "kalikayap": {
-        "name": "Kalika Yap",
-        "email": "",
-        "tags": []
+        "name": "Kalika Yap"
     },
     "nickabouzeid": {
-        "name": "Nick Abouzeid",
-        "email": "",
-        "tags": []
+        "name": "Nick Abouzeid"
     },
     "evankeare": {
-        "name": "Evan Keare",
-        "email": "",
-        "tags": []
+        "name": "Evan Keare"
     },
     "cocokaleel": {
-        "name": "Coco Kaleel",
-        "email": "",
-        "tags": []
+        "name": "Coco Kaleel"
     },
     "zachgoren": {
-        "name": "Zach Goren",
-        "email": "",
-        "tags": []
+        "name": "Zach Goren"
     },
     "zaakirahdaniels": {
-        "name": "Zaakirah Daniels",
-        "email": "",
-        "tags": []
+        "name": "Zaakirah Daniels"
     },
     "erinlessin": {
-        "name": "Erin Lessin",
-        "email": "",
-        "tags": []
+        "name": "Erin Lessin"
     },
     "lucasgelfond": {
-        "name": "Lucas Gelfond",
-        "email": "",
-        "tags": []
+        "name": "Lucas Gelfond"
     },
     "tarlinray": {
-        "name": "Tarlin Ray",
-        "email": "",
-        "tags": []
+        "name": "Tarlin Ray"
     }
 }

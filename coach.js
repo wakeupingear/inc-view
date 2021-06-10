@@ -84,7 +84,7 @@ function connect() {
         if (currentLocation !== "") {
             console.log("New room: " + currentLocation);
 
-            const myUsername = localStorage.getItem("username");
+            const myUsername = localStorage.getItem("fullname");
             const domain = 'meet.jit.si';
             const options = {
                 roomName: currentLocation,

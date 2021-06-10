@@ -103,8 +103,8 @@ https.createServer(options, function (req, res) {
     const urlParams = new URLSearchParams(req.url);
     const username = urlParams.get("/?username");
     let text = "unknown";
-    if (username in participantData) text = "participant";
-    else if (username in coachData) text = "coach";
+    if (username in participantData) text = "participant:"+participantData[username].name;
+    else if (username in coachData) text = "coach:"+coachData[username].name;
     res.writeHead(200, headers);
     res.end(text);
     console.log(text)

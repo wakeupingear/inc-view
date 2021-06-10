@@ -1,80 +1,78 @@
 {
-    "":{
-
-    },
+    "": {},
     "libraryF2Bridge": {
         "name": "Kutler Bridge",
         "color": "green",
-        "top":"35%",
-        "left":"40%",
-        "height":"10%",
-        "width":"25%",
-        "adjacent":{
-            "kutlerF2Vortex":{
-                "x":5,
-                "y":50
+        "top": 35,
+        "left": 40,
+        "height": 10,
+        "width": 25,
+        "adjacent": {
+            "kutlerF2Vortex": {
+                "x": 5,
+                "y": 50
             },
-            "kutlerF2Snacks":{
-                "x":70,
-                "y":50
+            "kutlerF2Snacks": {
+                "x": 70,
+                "y": 50
             }
         },
-        "default":true
+        "default": true
     },
     "kutlerF2Vortex": {
         "name": "Venture Vortex",
         "color": "purple",
-        "top":"35%",
-        "left":"70%",
-        "height":"20%",
-        "width":"20%"
+        "top": 35,
+        "left": 70,
+        "height": 20,
+        "width": 20
     },
     "kutlerF2Snacks": {
         "name": "Library Snack Tables",
         "color": "blue",
-        "top":"30%",
-        "left":"5%",
-        "height":"30%",
-        "width":"30%"
+        "top": 30,
+        "left": 5,
+        "height": 30,
+        "width": 30
     },
     "kutlerF2Chairs": {
         "name": "Library Chairs",
         "color": "aqua",
-        "top":"20%",
-        "left":"15%",
-        "height":"7%",
-        "width":"12%"
+        "top": 20,
+        "left": 15,
+        "height": 7,
+        "width": 12
     },
     "kutlerF2Lab": {
         "name": "Language Lab",
         "color": "orange",
-        "top":"5%",
-        "left":"15%",
-        "height":"10%",
-        "width":"30%"
+        "top": 5,
+        "left": 15,
+        "height": 10,
+        "width": 30
     },
-    "kutlerF2Hall":{
+    "kutlerF2Hall": {
         "name": "Library Hallway",
         "color": "pink",
-        "top":"62%",
-        "left":"30%",
-        "height":"25%",
-        "width":"20%"
+        "top": 62,
+        "left": 30,
+        "height": 25,
+        "width": 20
     },
-    "kutlerF2ClassLeft":{
+    "kutlerF2ClassLeft": {
         "name": "Kutler Classroom #1",
         "color": "red",
-        "top":"70%",
-        "left":"5%",
-        "height":"10%",
-        "width":"20%"
+        "top": 70,
+        "left": 5,
+        "height": 10,
+        "width": 20
     },
-    "kutlerF2ClassRight":{
+    "kutlerF2ClassRight": {
         "name": "Kutler Classroom #2",
         "color": "gold",
-        "top":"70%",
-        "left":"55%",
-        "height":"10%",
-        "width":"20%"
+        "top": 70,
+        "left": 55,
+        "height": 10,
+        "width": 20
     }
 }

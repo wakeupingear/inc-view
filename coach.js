@@ -117,7 +117,7 @@ function connect() {
                     let _color = layoutData[location].color;
                     if ("inactive" in layoutData[location]) _color = "gray";
                     if (location.indexOf("F2") !== -1) parent = f2;
-                    parent.innerHTML += "<div class='mapBox hoverable' style='top:" + layoutData[location].top + ";left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' onclick='setRoomChange(\"" + location + "\");'><div class='tooltip'><span class='tooltiptext'>" + location + "</span></div></div>";
+                    parent.innerHTML += "<div class='mapBox hoverable' style='bottom:" + (100 - layoutData[location].top) + "%;left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' data-tool-tip='" + layoutData[location].name + "' onclick='setRoomChange(\"" + location + "\");'></div>";
                 });
                 ws.send(JSON.stringify({ header: packetType.confirmLayout }));
                 break;

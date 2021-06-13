@@ -81,8 +81,8 @@ processLineByLine();
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
+    key: fs.readFileSync('site.key'),
+    cert: fs.readFileSync('site.cert')
 };
 let secureServer = https.createServer(options, (req, res) => {
     res.writeHead(200);

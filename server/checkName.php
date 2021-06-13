@@ -2,9 +2,9 @@
 $USERNAME=$_GET['username'];
 $handle = fopen("participants.txt", "r");
 if ($handle) {
-    while (($line = fgets($handle)) !== false) {
-        if ($USERNAME==strtolower(preg_replace('/\s*/', '',trim($line)))){
-            echo "participant:"+trim($line);
+    while (($line = trim(fgets($handle))) !== false) {
+        if ($USERNAME==strtolower(preg_replace('/\s*/', '',$line))){
+            echo "participant:" . $line;
             exit();
         }
     }
@@ -12,9 +12,9 @@ if ($handle) {
 }
 $handle = fopen("coaches.txt", "r");
 if ($handle) {
-    while (($line = fgets($handle)) !== false) {
-        if ($USERNAME==strtolower(preg_replace('/\s*/', '',trim($line)))){
-            echo "coach:"+trim($line);
+    while (($line = trim(fgets($handle))) !== false) {
+        if ($USERNAME==strtolower(preg_replace('/\s*/', '',$line))){
+            echo "coach:" . $line;
             exit();
         }
     }

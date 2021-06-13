@@ -1,4 +1,3 @@
-const WebSocket = require("ws");
 const fs = require("fs");
 const http = require("http");
 const https = require("https");
@@ -85,25 +84,20 @@ async function processLineByLine() {
 }
 processLineByLine();
 */
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-const options = {
-  key: fs.readFileSync("./privatekey.pem"),
-  cert: fs.readFileSync("./server.crt"),
-};
-let secureServer = https.createServer(options, (req, res) => {
-  res.writeHead(200);
-  res.end(index);
+//options.key.replace(/\\n/gm, '\n');
+//options.cert.replace(/\\n/gm, '\n');
+let secureServer = https.createServer({
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+    requestCert: false,
+    rejectUnauthorized: false
 });
-secureServer.addListener("upgrade", function (req, res, head) {
-  console.log("UPGRADE:", req.url);
-});
-secureServer.on("error", function (err) {
-  console.error(err);
-});
-secureServer.listen(8080);
-const wss = new WebSocket.Server({
-  server: secureServer,
+const io = require("socket.io")(secureServer,{
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+      }
 });
 
 /*https.createServer(options, function (req, res) {
@@ -175,7 +169,7 @@ function disconnect(socket) {
     delete participantClientList[socket.uid];
   }
 }
-wss.on("connection", function (socket) {
+io.on("connection", function (socket) {
   console.log("Connection");
   socket.uid = uuidv4(); //Unique socket id
   socket.isNode = false;
@@ -288,4 +282,5 @@ wss.on("connection", function (socket) {
     disconnect(socket);
   });
 });
+
 console.log("Server has started");

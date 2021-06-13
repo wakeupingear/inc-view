@@ -79,6 +79,7 @@ async function processLineByLine() {
 processLineByLine();
 */
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const options = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')

@@ -80,8 +80,8 @@ processLineByLine();
 */
 
 const options = {
-    key: fs.readFileSync('site.key'),
-    cert: fs.readFileSync('site.cert')
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
 };
 let secureServer = https.createServer(options, (req, res) => {
     res.writeHead(200);

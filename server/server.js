@@ -95,7 +95,7 @@ const wss = new WebSocket.Server({
     server: secureServer
 });
 
-https.createServer(options, function (req, res) {
+/*https.createServer(options, function (req, res) {
     const headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
@@ -109,7 +109,7 @@ https.createServer(options, function (req, res) {
     res.writeHead(200, headers);
     res.end(text);
     console.log(text)
-}).listen(8443);
+}).listen(8443);*/
 
 let defaultServer = "";
 

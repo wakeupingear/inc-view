@@ -74,7 +74,7 @@ const coachListDiv = document.getElementById("coachList");
 let requestCoach = -1;
 let retry = -1;
 function connect() {
-    const ws = new WebSocket('wss://52.35.162.61:8000');
+    const ws = new WebSocket('wss://52.35.162.61:8080');
     //const ws = new WebSocket('wss://24.205.76.29:8000');
     //const ws = new WebSocket('wss://localhost:8000');
 

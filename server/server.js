@@ -88,19 +88,17 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 //options.key.replace(/\\n/gm, '\n');
 //options.cert.replace(/\\n/gm, '\n');
 let secureServer = https.createServer({
-  key: fs.readFileSync('./key.pem','utf-8'),
-  cert: fs.readFileSync('./cert.pem','utf-8'),
+  key: fs.readFileSync('./key.pem', 'utf-8'),
+  cert: fs.readFileSync('./cert.pem', 'utf-8'),
   requestCert: false,
   rejectUnauthorized: false
 });
 let port = process.env.PORT || 8080;
 secureServer.listen(port);
-console.log("listening to port: "+port);
+console.log("listening to port: " + port);
 const io = require("socket.io")(secureServer, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
+  cors: true,
+  origins: ["*"]
 });
 
 /*https.createServer(options, function (req, res) {

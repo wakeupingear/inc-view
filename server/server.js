@@ -87,24 +87,29 @@ processLineByLine();
 //options.key.replace(/\\n/gm, '\n');
 //options.cert.replace(/\\n/gm, '\n');
 let secureServer = https.createServer({
-  key: fs.readFileSync('./key.pem', 'utf-8'),
-  cert: fs.readFileSync('./cert.pem', 'utf-8'),
+  key: fs.readFileSync("./key.pem", "utf-8"),
+  cert: fs.readFileSync("./cert.pem", "utf-8"),
   requestCert: false,
-  rejectUnauthorized: false
+  rejectUnauthorized: false,
 });
 let port = process.env.PORT || 8080;
 secureServer.listen(port);
 console.log("listening to port: " + port);
 const io = require("socket.io")(secureServer, {
-  cors: true,
-  origins: ["*"],
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
   handlePreflightRequest: (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    res.writeHead(200, { "Content-Type": "text/plain" });
     res.end();
-  }
+  },
 });
 
 /*https.createServer(options, function (req, res) {

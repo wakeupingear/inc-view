@@ -93,7 +93,9 @@ let secureServer = https.createServer({
   requestCert: false,
   rejectUnauthorized: false
 });
-secureServer.listen(443);
+let port = process.env.PORT || 8080;
+secureServer.listen(port);
+console.log("listening to port: "+port);
 const io = require("socket.io")(secureServer, {
   cors: {
     origin: "*",

@@ -88,9 +88,8 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 //options.key.replace(/\\n/gm, '\n');
 //options.cert.replace(/\\n/gm, '\n');
 let secureServer = https.createServer({
-  key: fs.readFileSync('./client.key'),
-  cert: fs.readFileSync('./client.cer'),
-  ca: fs.readFileSync('./client.csr'),
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./server.crt'),
   requestCert: false,
   rejectUnauthorized: false
 });

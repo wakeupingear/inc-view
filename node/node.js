@@ -6,8 +6,8 @@ function setLocation(newLocation){
 if (locationStr===null) setLocation("libraryF2Bridge");
 
 function connect() {
-    //const socket = io('https://52.35.162.61:8000');
-    const socket = io('https://24.205.76.29:8080');
+    const socket = io('https://52.35.162.61:8080');
+    //const socket = io('https://24.205.76.29:8080');
     //const ws = new WebSocket('wss://24.205.76.29:8000');
 
     socket.onopen = function () {

@@ -101,7 +101,7 @@ const io = require("socket.io")(secureServer, {
   origins: ["*"],
   handlePreflightRequest: (req, res) => {
     res.writeHead(200, {
-      "Access-Control-Allow-Origin": req.headers.origin,
+      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
       "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Referer, User-Agent, Host, Authorization",
       "Access-Control-Allow-Credentials": true,

@@ -7,7 +7,7 @@ if (locationStr === null) setLocation("libraryF2Bridge");
 
 function connect() {
     //const socket = io('https://52.35.162.61:8080');
-    const socket = io('https://node.hwincview.com:8080', { secure: true, rejectUnauthorized: false });
+    const socket = io('https://node.hwincview.com:8080', { secure: true, rejectUnauthorized: false, transport: ["websocket"], transports: ["websocket"] });
     //const ws = new WebSocket('wss://24.205.76.29:8000');
 
     socket.onopen = function () {

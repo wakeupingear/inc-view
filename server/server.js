@@ -88,12 +88,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 //options.key.replace(/\\n/gm, '\n');
 //options.cert.replace(/\\n/gm, '\n');
 let secureServer = https.createServer({
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./server.crt'),
+  key: fs.readFileSync('./key.pem','utf-8'),
+  cert: fs.readFileSync('./cert.pem','utf-8'),
   requestCert: false,
   rejectUnauthorized: false
 });
-secureServer.listen(8080);
+secureServer.listen(443);
 const io = require("socket.io")(secureServer, {
   cors: {
     origin: "*",

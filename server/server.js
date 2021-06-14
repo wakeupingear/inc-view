@@ -84,7 +84,6 @@ async function processLineByLine() {
 }
 processLineByLine();
 */
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 //options.key.replace(/\\n/gm, '\n');
 //options.cert.replace(/\\n/gm, '\n');
 let secureServer = https.createServer({
@@ -100,13 +99,10 @@ const io = require("socket.io")(secureServer, {
   cors: true,
   origins: ["*"],
   handlePreflightRequest: (req, res) => {
-    res.writeHead(200, {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-      "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Referer, User-Agent, Host, Authorization",
-      "Access-Control-Allow-Credentials": true,
-      "Access-Control-Max-Age": 86400
-    });
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end();
   }
 });

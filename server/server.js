@@ -98,7 +98,17 @@ secureServer.listen(port);
 console.log("listening to port: " + port);
 const io = require("socket.io")(secureServer, {
   cors: true,
-  origins: ["*"]
+  origins: ["*"],
+  handlePreflightRequest: (req, res) => {
+    res.writeHead(200, {
+      "Access-Control-Allow-Origin": req.headers.origin,
+      "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+      "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Referer, User-Agent, Host, Authorization",
+      "Access-Control-Allow-Credentials": true,
+      "Access-Control-Max-Age": 86400
+    });
+    res.end();
+  }
 });
 
 /*https.createServer(options, function (req, res) {

@@ -87,16 +87,19 @@ processLineByLine();
 //options.key.replace(/\\n/gm, '\n');
 //options.cert.replace(/\\n/gm, '\n');
 let io = require('socket.io');
-server = http.createServer((req, res) => {
-  res.writeHead(200, {
+secureServer = https.createServer({
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem')
+}, (req, res) => {
+    res.writeHead(200, {
 
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
 
-  });
+    });
 }).listen(8080);
-io = io(server, {
-  origins: '*'
+io = io(secureServer, {
+    origins: '*'
 });
 
 

@@ -86,19 +86,19 @@ processLineByLine();
 */
 //options.key.replace(/\\n/gm, '\n');
 //options.cert.replace(/\\n/gm, '\n');
-let io = require('socket.io');
-server = http.createServer((req, res) => {
-  res.writeHead(200, {
-
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-
-  });
-}).listen(8080);
+let io = require("socket.io");
+server = http
+  .createServer((req, res) => {
+    res.writeHead(200, {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers":
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    });
+  })
+  .listen(8080);
 io = io(server, {
-  origins: '*'
+  origins: "*",
 });
-
 
 /*https.createServer(options, function (req, res) {
     const headers = {
@@ -178,31 +178,36 @@ io.on("connection", function (socket) {
     data = JSON.parse(data); //Parse data as a JS object
     switch (data.header) {
       case packetType.serverConnect: //Node connects
-        console.log("Node added");
-        socket.isNode = true;
-        if (socket.uid in serverList) {
-          layoutData[serverList[socket.uid].location].inactive = true;
-          delete locationToServer[serverList[socket.uid].location];
-          delete serverList[socket.uid];
+        if (data.location !== null) {
+          console.log("Node added");
+          socket.isNode = true;
+          if (socket.uid in serverList) {
+            layoutData[serverList[socket.uid].location].inactive = true;
+            delete locationToServer[serverList[socket.uid].location];
+            delete serverList[socket.uid];
+          }
+          serverList[socket.uid] = {
+            location: data.location,
+            socket: socket,
+          };
+          locationToServer[data.location] = socket.uid;
+          delete layoutData[data.location].inactive;
+          sendLayout();
+          if ("default" in layoutData[data.location] || defaultServer === "") {
+            defaultServer = data.location;
+            setTimeout(function () {
+              Object.keys(coachClientList).forEach((client) => {
+                if (coachClientList[client].viewingNode === "") {
+                  setClientViewing(
+                    coachClientList[client].socket,
+                    defaultServer
+                  );
+                }
+              });
+            }, 1000);
+          }
+          console.log("Server: " + defaultServer);
         }
-        serverList[socket.uid] = {
-          location: data.location,
-          socket: socket,
-        };
-        locationToServer[data.location] = socket.uid;
-        delete layoutData[data.location].inactive;
-        sendLayout();
-        if ("default" in layoutData[data.location] || defaultServer === "") {
-          defaultServer = data.location;
-          setTimeout(function () {
-            Object.keys(coachClientList).forEach((client) => {
-              if (coachClientList[client].viewingNode === "") {
-                setClientViewing(coachClientList[client].socket, defaultServer);
-              }
-            });
-          }, 1000);
-        }
-        console.log("Server: " + defaultServer);
         break;
       case packetType.clientConnect: //Client connects
         console.log("Coach connected");

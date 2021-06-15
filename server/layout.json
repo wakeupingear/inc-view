@@ -44,7 +44,7 @@
         "width": 12
     },
     "kutlerF2Lab": {
-        "name": "Language Lab",
+        "name": "Tech Center",
         "color": "orange",
         "top": 5,
         "left": 15,
@@ -70,6 +70,38 @@
     "kutlerF2ClassRight": {
         "name": "Kutler Classroom #2",
         "color": "gold",
+        "top": 70,
+        "left": 55,
+        "height": 10,
+        "width": 20
+    },
+    "seaverF2301": {
+        "name": "Seaver 301",
+        "color": "gold",
+        "top": 70,
+        "left": 55,
+        "height": 10,
+        "width": 20
+    },
+    "seaverF2302": {
+        "name": "Seaver 302",
+        "color": "red",
+        "top": 70,
+        "left": 55,
+        "height": 10,
+        "width": 20
+    },
+    "libraryF1Silent": {
+        "name": "Outside Silent Study",
+        "color": "aqua",
+        "top": 70,
+        "left": 55,
+        "height": 10,
+        "width": 20
+    },
+    "libraryF1Middle": {
+        "name": "Library Center",
+        "color": "green",
         "top": 70,
         "left": 55,
         "height": 10,

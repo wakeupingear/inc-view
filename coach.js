@@ -157,7 +157,7 @@ function connect() {
             location +
             "\");'></div>";*/
             //&&location!==currentLocation
-          if (!("inactive" in layoutData[location])) {
+          if (!("inactive" in layoutData[location])&&location!==currentLocation) {
             parent.innerHTML+="<div class='mapBoxText hoverable' data-tool-tip='" +
             layoutData[location].name +
             "' style='background-color:"+_color+

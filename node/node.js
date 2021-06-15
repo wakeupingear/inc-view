@@ -2,6 +2,7 @@ let locationStr = localStorage.getItem("location");
 function setLocation(newLocation) {
     locationStr = newLocation;
     localStorage.setItem("location", locationStr);
+    location.reload();
 }
 if (locationStr === null) setLocation("libraryF2Bridge");
 

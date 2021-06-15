@@ -19,10 +19,10 @@
 
 <body>
     <div id="contentView">
-        <div id="loading" onclick="setName(prompt('Enter this camera\'s Location!\n(check the GitHub for a chart of valid names)'));">
+        <div id="loading">
             <div id="loadingText">Connecting...</div>
         </div>
-        <div id="setStorage" class="hoverable">
+        <div id="setStorage" class="hoverable" onclick="setLocation(prompt('Enter this camera\'s Location!\n(check the GitHub for a chart of valid names)'));">
             Change Location
         </div>
         <div id="videoLocation"></div>

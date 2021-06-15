@@ -61,20 +61,19 @@ function setupButtonList() {
 }
 
 function connect() {
-    const ws = new WebSocket('wss://52.35.162.61:443');
-    //const ws = new WebSocket('wss://24.205.76.29:8000');
+    const socket = io('https://node.hwincview.com', { transports: ['websocket'] });
 
-    ws.onopen = function () {
+    socket.on("connect", function () {
         console.log("Connected to server");
         let _data = JSON.stringify({
             header: packetType.clientConnect,
             name: localStorage.getItem("username")
         });
-        ws.send(_data);
-    }
+        socket.send(_data);
+    });
 
     let jitsiWindow = -1;
-    setRoomChange = function (_location) { //Bad global variable! Needs ws ref tho so ¯\_(ツ)_/¯
+    setRoomChange = function (_location) { //Bad global variable! Needs socket ref tho so ¯\_(ツ)_/¯
         if (_location !== "" && (currentLocation === _location || "inactive" in layoutData[_location])) {
             return;
         }
@@ -104,7 +103,7 @@ function connect() {
         }
     }
 
-    ws.onmessage = function (event) {
+    socket.on("message", function (event) {
         _data = JSON.parse(event.data); //Parse data as a JS object
         switch (_data.header) {
             case packetType.nodeLayout:
@@ -119,7 +118,7 @@ function connect() {
                     if (location.indexOf("F2") !== -1) parent = f2;
                     parent.innerHTML += "<div class='mapBox hoverable' style='bottom:" + (100 - layoutData[location].top) + "%;left:" + layoutData[location].left + ";height:" + layoutData[location].height + ";width:" + layoutData[location].width + ";background-color:" + _color + ";' data-tool-tip='" + layoutData[location].name + "' onclick='setRoomChange(\"" + location + "\");'></div>";
                 });
-                ws.send(JSON.stringify({ header: packetType.confirmLayout }));
+                socket.send(JSON.stringify({ header: packetType.confirmLayout }));
                 break;
             case packetType.clientStartViewing:
                 setRoomChange(_data.location);
@@ -131,7 +130,7 @@ function connect() {
                 break;
             default: break;
         }
-    };
+    });
 
     let retry = function (e) { //There's an infinite retry bug in here somewhere
         if (currentLocation !== "") {
@@ -144,7 +143,12 @@ function connect() {
             connect();
         }, 3000);
     }
-    ws.onclose = retry;
+    socket.on("error", function () {
+        retry();
+    });
+    socket.on("disconnect", function () {
+        retry();
+    });
 }
 connect();
 

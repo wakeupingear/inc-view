@@ -6,20 +6,18 @@ function setLocation(newLocation) {
 if (locationStr === null) setLocation("libraryF2Bridge");
 
 function connect() {
-    //const socket = io('https://52.35.162.61:8080');
-    const socket = io('https://node.hwincview.com');
-    //const ws = new WebSocket('wss://24.205.76.29:8000');
+    const socket = io('https://node.hwincview.com', { transports: ['websocket'] });
 
-    socket.onopen = function () {
+    socket.on("connect", function () {
         console.log("Connected to server");
         const _data = {
             header: packetType.serverConnect,
             location: locationStr
         }
-        socketsend(JSON.stringify(_data));
+        socket.send(JSON.stringify(_data));
         document.getElementById("videoLocation").innerHTML = "<object type='text/html' class='content' data='./meeting.html'></object>";
         document.getElementById("loading").style.display = "none";
-    }
+    });
 
     let retry = function (e) {
         document.getElementById("loading").style.display = "flex";
@@ -28,8 +26,12 @@ function connect() {
             connect();
         }, 3000);
     }
-    socketonerror = retry;
-    socketonclose = retry;
+    socket.on("error", function () {
+        retry();
+    });
+    socket.on("disconnect", function () {
+        retry();
+    });
 }
 
 connect();

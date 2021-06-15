@@ -275,7 +275,7 @@ io.on("connection", function (socket) {
     }
   });
 
-  socket.on("close", function () {
+  socket.on("disconnect", function () {
     disconnect(socket);
   }); //Handle disconnect possibilities
   socket.on("error", function () {

@@ -69,25 +69,23 @@ function filterCoaches(filter) {
     }
 }
 
-const swearRX=new RegExp("\\b(fuck|shit|piss|nigg|hell|cunt|fag)\\b","i");
+const swearRX = new RegExp("\\b(fuck|shit|piss|nigg|hell|cunt|fag)\\b", "i");
 const coachListDiv = document.getElementById("coachList");
 let requestCoach = -1;
 let retry = -1;
 function connect() {
-    const ws = new WebSocket('wss://52.35.162.61:8080');
-    //const ws = new WebSocket('wss://24.205.76.29:8000');
-    //const ws = new WebSocket('wss://localhost:8000');
+    const socket = io('https://node.hwincview.com', { transports: ['websocket'] });
 
-    ws.onopen = function () {
+    socket.on("connect", function () {
         console.log("Connected to server");
         let _data = JSON.stringify({
             header: packetType.participantConnect,
             name: localStorage.getItem("username")
         });
-        ws.send(_data);
-    }
+        socket.send(_data);
+    });
 
-    ws.onmessage = function (event) {
+    socket.on("message", function (event) {
         _data = JSON.parse(event.data); //Parse data as a JS object
         switch (_data.header) {
             case packetType.participantGetCoaches:
@@ -108,15 +106,15 @@ function connect() {
                 break;
             default: break;
         }
-    };
+    });
 
     requestCoach = function (msg) {
-        if (msg==null) return;
-        if (swearRX.test(msg)){
+        if (msg == null) return;
+        if (swearRX.test(msg)) {
             alert("Please don't use foul language. These coaches have volunteered their time to help you out, so please respect that.");
         }
-        else ws.send(JSON.stringify({
-            header:packetType.participantRequestCoach,
+        else socket.send(JSON.stringify({
+            header: packetType.participantRequestCoach,
             name: localStorage.getItem("username"),
             coachName: panelOpened,
             msg: msg
@@ -129,6 +127,11 @@ function connect() {
             connect();
         }, 3000);
     }
-    ws.onclose = retry;
+    socket.on("error", function () {
+        retry();
+    });
+    socket.on("disconnect", function () {
+        retry();
+    });
 }
 connect();

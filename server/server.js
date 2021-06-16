@@ -14,6 +14,10 @@ const coachClientList = {}; //uid => {viewingNode, socket, name}
 const participantClientList = {}; //uid => { socket, name}
 const locationToServer = {};
 const layoutData = JSON.parse(fs.readFileSync("./layout.json"));
+Object.values(layoutData).forEach(obj => {
+  if (!("name" in obj)) obj.name = obj.roomName;
+  obj.status=1;
+});
 const participantLocations = JSON.parse(
   fs.readFileSync("./participantLocations.json")
 );
@@ -144,6 +148,7 @@ function sendLayout() {
   });
 }
 function disconnect(socket) {
+  if (socket.clientType === -1) return;
   //Socket disconnects
   console.log("Disconnect");
   if (socket.isNode) {
@@ -173,7 +178,7 @@ io.on("connection", function (socket) {
   console.log("Connection");
   socket.uid = uuidv4(); //Unique socket id
   socket.isNode = false;
-  socket.clientType = 0; //0: server, 1: coach, 2: participant
+  socket.clientType = 0; //-1: status, 0: server, 1: coach, 2: participant
   socket.on("message", function (data) {
     data = JSON.parse(data); //Parse data as a JS object
     switch (data.header) {
@@ -274,6 +279,12 @@ io.on("connection", function (socket) {
             );
           }
         });
+        break;
+      case packetType.setStatus:
+        socket.clientType=-1;
+        layoutData[data.location].status=data.status;
+        sendLayout();
+        socket.disconnect();
         break;
       default:
         break;

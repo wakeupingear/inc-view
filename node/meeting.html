@@ -1,8 +1,69 @@
 <link rel="stylesheet" href="../styles.css" />
 <script src='https://meet.jit.si/external_api.js'></script>
+<script>
+    let sidebarOpened = false;
+    function sidebarAnimation() {
+        const bar = document.getElementById("statusBar");
+        if (sidebarOpened) {
+            bar.classList.remove("openStatusBar");
+            bar.classList.add("closeStatusBar");
+            sidebarOpened = false;
+        }
+        else {
+            bar.classList.remove("closeStatusBar");
+            bar.classList.add("openStatusBar");
+            sidebarOpened = true;
+        }
+    }
+
+    let status = 0;
+    let statusSet = false;
+    function cycleStatus() {
+        const statusType = document.getElementById("statusType");
+        const statusBox = document.getElementById("statusBox");
+        status = (status + 1) % 3;
+        if (status === 2) {
+            statusType.innerHTML = "We Need Help!";
+            statusBox.style.backgroundColor = "var(--c_green)";
+        }
+        else if (status === 1) {
+            statusType.innerHTML = "Open to Help";
+            statusBox.style.backgroundColor = "var(--c_yellow)";
+        }
+        else if (status === 0) {
+            statusType.innerHTML = "No Help Needed!";
+            statusBox.style.backgroundColor = "var(--c_red)";
+        }
+
+        if (statusSet) {
+            const socket = io('https://node.hwincview.com', { transports: ['websocket'] });
+
+            socket.on("connect", function () {
+                socket.send(JSON.stringify({
+                    header:packetType.setStatus,
+                    location:locationStr,
+                    status:status
+                }));
+            });
+        }
+        else statusSet = true;
+    }
+</script>
 <div>
-    <div id="video" style="height: 100vh;"></div>
+    <div id="statusSidebar">
+        <div id="video" style="height: 100vh;"></div>
+        <div id="statusBar" class="sidebarAnimaton">
+            <div id="statusText">
+                <div id="statusTextButton" class="hoverable" onclick="cycleStatus();">Status:
+                    <div id="statusType">Asking for Help</div>
+                </div>
+            </div>
+            <div id="statusBox" class="hoverable" onclick="sidebarAnimation();"></div>
+        </div>
+    </div>
     <script>
+        cycleStatus();
+
         const vid = document.getElementById("video");
         const domain = 'meet.jit.si';
         const options = {

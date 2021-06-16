@@ -33,6 +33,14 @@ function connect() {
     socket.on("disconnect", function () {
         retry();
     });
+
+    function sendStatus(status) {
+        socket.send(JSON.stringify({
+            header: packetType.setStatus,
+            status:status
+        }));
+        cycleStatus();
+    }
 }
 
 connect();

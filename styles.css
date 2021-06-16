@@ -5,6 +5,8 @@
     --c_tan: #D4B483;
     --c_darkTan: #b1d483;
     --c_red: #a7373d;
+    --c_green: #37a737;
+    --c_yellow: #d1c738;
     --font: 'Poppins';
     -webkit-backface-visibility: hidden;
     min-width: 0;
@@ -273,19 +275,19 @@ html {
     content: attr(data-tool-tip);
 }
 
-#tempHolder{
-    display:flex;
+#tempHolder {
+    display: flex;
     flex-direction: column;
     align-items: center;
-    width:100%;
+    width: 100%;
 }
 
-.mapBoxText{
-    width:100%;
-    padding:1vw;
+.mapBoxText {
+    width: 100%;
+    padding: 1vw;
     font-size: 1.5em;
     border-radius: 1.5vw;
-    padding:2vw;
+    padding: 2vw;
 }
 
 .green {
@@ -524,4 +526,64 @@ html {
     padding: 1vw;
     font-size: max(3vw, 6vh);
     width: max-content;
+}
+
+#statusSidebar {
+    display: flex;
+}
+
+#statusBar {
+    height: 100vh;
+    resize: both;
+    display: flex;
+    width: 20%;
+    flex-direction: column;
+}
+
+#statusText {
+    font-size: 2em;
+    text-align: center;
+    padding-top: 3vw;
+    padding-bottom: 3vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    display: inline-block;
+}
+
+#statusBox {
+    background-color: green;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.openStatusBar {
+    animation-name: cameraSidebarOpen;
+}
+
+.closeStatusBar {
+    animation-name: cameraSidebarClose;
+}
+
+@keyframes cameraSidebarOpen {
+    from {
+        width: 20%;
+    }
+    to {
+        width: 60%;
+    }
+}
+
+@keyframes cameraSidebarClose {
+    from {
+        width: 60%;
+    }
+    to {
+        width: 20%;
+    }
+}
+
+#statusTextButton {
+    background-color: var(--c_blue);
+    border-radius: 2vw;
+    padding: 1vw;
 }

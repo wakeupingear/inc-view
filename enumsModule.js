@@ -9,5 +9,6 @@ module.exports = packetType = Object.freeze(
         "participantConnect": 7,
         "participantGetCoaches": 8,
         "participantRequestCoach": 9,
-        "coachRequested": 10
+        "coachRequested": 10,
+        "setStatus":11,
     });

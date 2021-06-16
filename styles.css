@@ -257,9 +257,10 @@ html {
     margin: 0;
 }
 
-.mapLayout {
+.mapLayoutcoachText {
     position: relative;
     height: 100%;
+    width: 0%;
 }
 
 .mapBox {
@@ -420,6 +421,9 @@ html {
 }
 
 #coachInfoPanel {
+    position: sticky;
+    position: -webkit-sticky;
+    align-self: flex-start;
     background-color: var(--c_red);
     display: flex;
     align-items: center;

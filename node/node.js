@@ -8,7 +8,7 @@ function setLocation(newLocation) {
 if (locationStr===undefined||locationStr===null) setLocation(Math.random().toString(36).substring(7));
 
 function connect() {
-    const socket = io('http://localhost:8080', {
+    const socket = io('https://node.hwincview.com', {
         transports: ['websocket'],
         'reconnection': true,
         'reconnectionDelay': 3000,

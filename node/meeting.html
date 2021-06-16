@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="../styles.css" />
 <script src='https://meet.jit.si/external_api.js'></script>
+<script src="https://cdn.socket.io/4.1.2/socket.io.min.js" crossorigin="anonymous"></script>
+
 <script>
     let sidebarOpened = false;
     function sidebarAnimation() {
@@ -40,8 +42,8 @@
 
             socket.on("connect", function () {
                 socket.send(JSON.stringify({
-                    header:packetType.setStatus,
-                    location:locationStr,
+                    header:11,
+                    location:localStorage.getItem("location"),
                     status:status
                 }));
             });

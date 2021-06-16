@@ -7,6 +7,7 @@ function setLocation(newLocation) {
 if (locationStr === null) setLocation("libraryF2Bridge");
 
 function connect() {
+    //const socket = io('http://localhost:8080', { transports: ['websocket'] });
     const socket = io('https://node.hwincview.com', { transports: ['websocket'] });
 
     socket.on("connect", function () {
@@ -33,14 +34,6 @@ function connect() {
     socket.on("disconnect", function () {
         retry();
     });
-
-    function sendStatus(status) {
-        socket.send(JSON.stringify({
-            header: packetType.setStatus,
-            status:status
-        }));
-        cycleStatus();
-    }
 }
 
 connect();

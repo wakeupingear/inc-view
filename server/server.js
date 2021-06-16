@@ -283,6 +283,7 @@ io.on("connection", function (socket) {
       case packetType.setStatus:
         socket.clientType=-1;
         layoutData[data.location].status=data.status;
+        console.log(data)
         sendLayout();
         socket.disconnect();
         break;

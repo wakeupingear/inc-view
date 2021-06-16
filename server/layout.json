@@ -29,7 +29,7 @@
         "width": 20
     },
     "kutlerF2Snacks": {
-        "name": "Joe",
+        "name": "Christopher, Aaron, Ashan, Jackson, Kian",
         "roomName": "Library Snack Tables",
         "color": "blue",
         "top": 30,
@@ -38,7 +38,7 @@
         "width": 30
     },
     "kutlerF2Chairs": {
-        "name": "Joe",
+        "name": "Overlook",
         "roomName": "Library Chairs",
         "color": "aqua",
         "top": 20,
@@ -47,7 +47,7 @@
         "width": 12
     },
     "kutlerF2Lab": {
-        "name": "Joe",
+        "name": "Kelsey, Mia, Sarah, Sam, Grayson, Ryan",
         "roomName": "Tech Center",
         "color": "orange",
         "top": 5,
@@ -56,6 +56,7 @@
         "width": 30
     },
     "kutlerF2Hall": {
+        "name":"Hallway",
         "roomName": "Library Hallway",
         "color": "pink",
         "top": 62,
@@ -64,7 +65,7 @@
         "width": 20
     },
     "kutlerF2ClassLeft": {
-        "name": "Joe",
+        "name": "Erik, Eric, Josh, Josh",
         "roomName": "Kutler Classroom #1",
         "color": "red",
         "top": 70,
@@ -73,7 +74,7 @@
         "width": 20
     },
     "kutlerF2ClassRight": {
-        "name": "Joe",
+        "name": "Piper, Maya, Daisy, Sofia, Tess",
         "roomName": "Kutler Classroom #2",
         "color": "gold",
         "top": 70,
@@ -82,7 +83,7 @@
         "width": 20
     },
     "seaverF2301": {
-        "name": "Joe",
+        "name": "Dru, Cole, Mason",
         "roomName": "Seaver 301",
         "color": "gold",
         "top": 70,
@@ -91,7 +92,7 @@
         "width": 20
     },
     "seaverF2302": {
-        "name": "Joe",
+        "name": "Seaver 302",
         "roomName": "Seaver 302",
         "color": "red",
         "top": 70,
@@ -100,7 +101,7 @@
         "width": 20
     },
     "libraryF1Silent": {
-        "name": "Joe",
+        "name": "Derek, Noah, Connor",
         "roomName": "Outside Silent Study",
         "color": "aqua",
         "top": 70,
@@ -109,7 +110,7 @@
         "width": 20
     },
     "libraryF1Middle": {
-        "name": "Joe",
+        "name": "Aylin, Malia, Angela, Chloe, Amber",
         "roomName": "Library Center",
         "color": "green",
         "top": 70,

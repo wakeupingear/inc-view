@@ -107,7 +107,6 @@ const coachTimes=[
 ]
 function checkCoach(coach,d){
     let num=0;
-    console.log(d.getDay())
     if (d.getDay()===2&&d.getHours()>=14&&d.getHours()<=16) num=1;
     else if (d.getDay()===3&&d.getHours()>=13&&d.getHours()<=15) num=2;
     else if (d.getDay()===4&&d.getHours()>=10&&d.getHours()<=11) num=3;
@@ -150,7 +149,6 @@ function connect() {
                 coachListDiv.innerHTML = "";
                 let currentDate = new Date();
                 Object.keys(coachData).forEach(coach => {
-                    console.log(coach)
                     if (coachData[coach].tags.length>0&&checkCoach(coach,currentDate)) {
                         let str = "<div class='coachBox hoverable' onclick='openCoachPanel(\"" + coach + "\")'";
                         str += ">" + coachData[coach].name;

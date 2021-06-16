@@ -20,7 +20,7 @@
         "default": true
     },
     "kutlerF2Vortex": {
-        "name": "Joe, Bob, Sue, Ellen, Matt",
+        "name": "Inc HQ",
         "roomName": "Venture Vortex",
         "color": "purple",
         "top": 35,
@@ -112,6 +112,15 @@
     "libraryF1Middle": {
         "name": "Aylin, Malia, Angela, Chloe, Amber",
         "roomName": "Library Center",
+        "color": "green",
+        "top": 70,
+        "left": 55,
+        "height": 10,
+        "width": 20
+    },
+    "libraryF1Bottom": {
+        "name": "Andrew, Hudson, Ella, Matthew, Chase",
+        "roomName": "Lower Library",
         "color": "green",
         "top": 70,
         "left": 55,

@@ -107,14 +107,15 @@ const coachTimes=[
 ]
 function checkCoach(coach,d){
     let num=0;
-    if (d.getDay()===1&&d.getHours()>=14&&d.getHours()<=16) num=1;
-    else if (d.getDay()===2&&d.getHours()>=13&&d.getHours()<=15) num=2;
-    else if (d.getDay()===3&&d.getHours()>=10&&d.getHours()<=11) num=3;
-    else if (d.getDay()===3&&d.getHours()>=13&&d.getHours()<=14) num=4;
-    else if (d.getDay()===3&&d.getHours()>=15&&d.getHours()<=15) num=5;
-    else if (d.getDay()===4&&d.getHours()>=9&&d.getHours()<=12) num=6;
-    else if (d.getDay()===4&&d.getHours()>=13&&d.getHours()<=17) num=7;
-    else if (d.getDay()===5&&d.getHours()>=10&&d.getHours()<=12) num=8;
+    console.log(d.getDay())
+    if (d.getDay()===2&&d.getHours()>=14&&d.getHours()<=16) num=1;
+    else if (d.getDay()===3&&d.getHours()>=13&&d.getHours()<=15) num=2;
+    else if (d.getDay()===4&&d.getHours()>=10&&d.getHours()<=11) num=3;
+    else if (d.getDay()===4&&d.getHours()>=13&&d.getHours()<=14) num=4;
+    else if (d.getDay()===4&&d.getHours()>=15&&d.getHours()<=15) num=5;
+    else if (d.getDay()===5&&d.getHours()>=9&&d.getHours()<=12) num=6;
+    else if (d.getDay()===5&&d.getHours()>=13&&d.getHours()<=17) num=7;
+    else if (d.getDay()===6&&d.getHours()>=10&&d.getHours()<=12) num=8;
     return coachTimes[num].includes(coach);
 }
 
@@ -149,6 +150,7 @@ function connect() {
                 coachListDiv.innerHTML = "";
                 let currentDate = new Date();
                 Object.keys(coachData).forEach(coach => {
+                    console.log(coach)
                     if (coachData[coach].tags.length>0&&checkCoach(coach,currentDate)) {
                         let str = "<div class='coachBox hoverable' onclick='openCoachPanel(\"" + coach + "\")'";
                         str += ">" + coachData[coach].name;

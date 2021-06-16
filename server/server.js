@@ -151,6 +151,7 @@ function disconnect(socket) {
   if (socket.clientType === -1) return;
   //Socket disconnects
   console.log("Disconnect");
+  if (socket.clientType===0&&!(socket.uid in serverList)) return;
   if (socket.isNode) {
     //Node
     const _location = serverList[socket.uid].location;
@@ -183,7 +184,7 @@ io.on("connection", function (socket) {
     data = JSON.parse(data); //Parse data as a JS object
     switch (data.header) {
       case packetType.serverConnect: //Node connects
-        if (data.location !== null) {
+        if (data.location !== null&&data.location in layoutData) {
           console.log("Node added");
           socket.isNode = true;
           if (socket.uid in serverList) {
@@ -269,7 +270,6 @@ io.on("connection", function (socket) {
             room !== coach.viewingNode &&
             coach.name === data.coachName.toLowerCase().replace(/\s/g, "")
           ) {
-            console.log("sending buton");
             coach.socket.send(
               JSON.stringify({
                 header: packetType.coachRequested,
@@ -283,7 +283,6 @@ io.on("connection", function (socket) {
       case packetType.setStatus:
         socket.clientType=-1;
         layoutData[data.location].status=data.status;
-        console.log(data)
         sendLayout();
         socket.disconnect();
         break;

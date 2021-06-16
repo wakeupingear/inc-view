@@ -31,7 +31,7 @@ function checkCookieExists() {
 }
 
 function setName(username) {
-    if (username == null) return;
+    if (username===undefined||username===null) return;
     username = username.toLowerCase().replace(/\s/g, '');
     localStorage.setItem("username", username);
     checkCookieExists();

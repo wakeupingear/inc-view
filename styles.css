@@ -162,6 +162,7 @@ html {
     height: 10vh;
     display: none;
     justify-content: center;
+    border-bottom: 2vw solid var(--c_white);
 }
 
 #closeButton img {
@@ -263,12 +264,13 @@ html {
 
 .mapBox {
     position: absolute;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     overflow: visible;
     flex-basis: auto;
     font-size: 1em;
+    height:3vh;
 }
 
 .mapBox::after {
@@ -280,14 +282,16 @@ html {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0px;
 }
 
 .mapBoxText {
     width: 100%;
-    padding: 1vw;
-    font-size: 1.5em;
-    border-radius: 1.5vw;
-    padding: 2vw;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    font-size: 4vh;
 }
 
 .green {
@@ -530,6 +534,7 @@ html {
 
 #statusSidebar {
     display: flex;
+    overflow: hidden;
 }
 
 #statusBar {

@@ -1,5 +1,6 @@
 let layoutData = {};
-
+const specialRooms = ["libraryF2Bridge"];
+const statusColors = ["var(--c_red)", "var(--c_yellow)", "var(--c_green)"];
 function positionButtons() {
   const list = document.getElementsByClassName("navButton");
   //const base=document.getElementById("largeVideoWrapper");
@@ -49,6 +50,50 @@ function createButtons() {
   });
 }
 
+function generateRooms() {
+  const holder = document.getElementById("tempHolder");
+  holder.innerHTML = "";
+  //const f1 = document.getElementById("layoutF1");
+  //const f2 = document.getElementById("layoutF2");
+  let i = 0;
+  Object.keys(layoutData).forEach((location) => {
+    let parent = holder;
+    let _color = statusColors[layoutData[location].status] + ";filter:brightness(" + (100 - i * 7) + "%);";
+    if (specialRooms.includes(location)) _color = layoutData[location].color;
+    /*if ("inactive" in layoutData[location]) _color = "gray";
+    if (location.indexOf("F2") !== -1) parent = f2;
+    parent.innerHTML +=
+      "<div class='mapBox hoverable' style='bottom:" +
+      (100 - layoutData[location].top) +
+      "%;left:" +
+      layoutData[location].left +
+      "%;height:" +
+      layoutData[location].height +
+      "%;width:" +
+      layoutData[location].width +
+      "%;background-color:" +
+      _color +
+      ";' data-tool-tip='" +
+      layoutData[location].name +
+      "' onclick='setRoomChange(\"" +
+      location +
+      "\");'></div>";*/
+    //&&location!==currentLocation
+    for (var k = 0; k < 9; k++) {
+      let _color = statusColors[layoutData[location].status] + ";filter:brightness(" + (100 - i * 7) + "%);";
+      if (!("inactive" in layoutData[location]) && location !== currentLocation) {
+        parent.innerHTML += "<div class='mapBoxText hoverable' data-tool-tip='" +
+          layoutData[location].name +
+          "' style='background-color:" + _color +
+          "' onclick='setRoomChange(\"" +
+          location +
+          "\");'>" + layoutData[location].name + "</div>";
+        i++;
+      }
+    }
+  });
+}
+
 function setupButtonList() {
   buttonData = {};
   if (false) {
@@ -72,8 +117,12 @@ function setupButtonList() {
 }
 
 function connect() {
-  const socket = io("https://node.hwincview.com", {
-    transports: ["websocket"],
+  const socket = io('https://node.hwincview.com', {
+    transports: ['websocket'],
+    'reconnection': true,
+    'reconnectionDelay': 3000,
+    'reconnectionDelayMax': 5000,
+    'reconnectionAttempts': 50000
   });
 
   socket.on("connect", function () {
@@ -119,6 +168,7 @@ function connect() {
 
       setupButtonList();
       positionButtons();
+      generateRooms();
       setMap(currentLocation.match(/\d+/)[0]);
     } else {
       setMap("-1");
@@ -131,41 +181,7 @@ function connect() {
       case packetType.nodeLayout:
         layoutData = _data.data;
         console.log(layoutData);
-        const holder = document.getElementById("tempHolder");
-        holder.innerHTML="";
-        //const f1 = document.getElementById("layoutF1");
-        //const f2 = document.getElementById("layoutF2");
-        Object.keys(layoutData).forEach((location) => {
-          let parent = holder;
-          let _color = layoutData[location].color;
-          /*if ("inactive" in layoutData[location]) _color = "gray";
-          if (location.indexOf("F2") !== -1) parent = f2;
-          parent.innerHTML +=
-            "<div class='mapBox hoverable' style='bottom:" +
-            (100 - layoutData[location].top) +
-            "%;left:" +
-            layoutData[location].left +
-            "%;height:" +
-            layoutData[location].height +
-            "%;width:" +
-            layoutData[location].width +
-            "%;background-color:" +
-            _color +
-            ";' data-tool-tip='" +
-            layoutData[location].name +
-            "' onclick='setRoomChange(\"" +
-            location +
-            "\");'></div>";*/
-            //&&location!==currentLocation
-          if (!("inactive" in layoutData[location])&&location!==currentLocation) {
-            parent.innerHTML+="<div class='mapBoxText hoverable' data-tool-tip='" +
-            layoutData[location].name +
-            "' style='background-color:"+_color+
-            "' onclick='setRoomChange(\"" +
-            location +
-            "\");'>"+layoutData[location].name+"</div>";
-          }
-        });
+        generateRooms();
         socket.send(JSON.stringify({ header: packetType.confirmLayout }));
         break;
       case packetType.clientStartViewing:
@@ -194,10 +210,6 @@ function connect() {
       document.getElementById("videoJitsi").innerHTML = "";
       currentLocation = "";
     }
-    setTimeout(function () {
-      console.log("Disconnected. Retrying in 3s");
-      connect();
-    }, 3000);
   };
   socket.on("error", function () {
     retry();

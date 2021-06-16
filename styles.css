@@ -303,20 +303,35 @@ html {
     background-color: blue;
 }
 
+.yellow {
+    background-color: rgb(190, 190, 108);
+}
+
+
+.turquoise {
+    background-color: rgb(51, 136, 127);
+}
+
+
+.magenta {
+    background-color: rgb(184, 13, 184);
+}
+
+
 .purple {
     background-color: purple;
 }
 
 .aqua {
-    background-color: aqua;
+    background-color: rgb(15, 190, 147);
 }
 
 .orange {
-    background-color: orange;
+    background-color: rgb(199, 137, 23);
 }
 
 .pink {
-    background-color: pink;
+    background-color: rgb(202, 129, 141);
 }
 
 .red {
@@ -324,7 +339,7 @@ html {
 }
 
 .gold {
-    background-color: gold;
+    background-color: rgb(187, 162, 20);
 }
 
 .gray {
@@ -396,6 +411,11 @@ html {
     text-align: center;
     align-items: center;
     justify-content: center;
+    vertical-align: middle;
+    font-size: 2em;
+    padding: 2vw;
+    background-color: var(--c_blue);
+    display: none;
 }
 
 .coachBox {
@@ -417,7 +437,7 @@ html {
     text-align: center;
     display: flex;
     align-items: center;
-    font-size: 1vw;
+    font-size: 1.5vw;
 }
 
 #coachInfoPanel {
@@ -444,13 +464,6 @@ html {
     justify-content: space-evenly;
     width: 100%;
     padding: 2vw;
-}
-
-#resetFilter {
-    background-color: var(--c_red);
-    width: 80%;
-    height: max(10vh, 60px);
-    display: none;
 }
 
 @keyframes coach-popIn {

@@ -51,8 +51,7 @@ function loadPeople() {
     if (!("photo" in coachData[coach]))
       coachData[coach].photo = "https://www.gravatar.com/avatar/" + uuidv4();
     if (!("bio" in coachData[coach])) coachData[coach].bio = "Bio goes here";
-    if (!("email" in coachData[coach]))
-      coachData[coach].email = "willf668@gmail.com";
+    if (!("email" in coachData[coach])||coachData[coach].email==="") coachData[coach].email = "willf668@gmail.com";
     if (!("tags" in coachData[coach])) coachData[coach].tags = [];
   });
 
@@ -247,14 +246,14 @@ io.on("connection", function (socket) {
         const room = participantLocations[data.name];
         const mailOptions = {
           from: "wfwebsitemanager@gmail.com",
-          to: "willf668@gmail.com",
+          to: coachData[data.coachName].email,
           //cc: 'zach@tinyheadedkingdom.com',
-          subject: "HW Inc View - " + data.name + " is asking for help!",
-          text: "Hello,\n\n" + data.name + "'s team has requested your help!",
+          subject: "HW Inc - " + data.fullname + " is asking for help!",
+          text: "Hello,\n\n" + data.fullname + "'s team ("+layoutData[room].name+" at "+layoutData[room].roomName+") has requested your help!",
         };
         if (data.msg !== "") mailOptions.text += "\n\n'" + data.msg + "'";
         mailOptions.text +=
-          "\n\nTo join, click here: http://incview.com?room=" + room;
+          "\n\nTo join, click here: https://hwincview.com";
         mailOptions.text += "\n\nThanks!\n-The Inc Team";
 
         transporter.sendMail(mailOptions, function (error, info) {

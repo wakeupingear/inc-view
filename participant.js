@@ -6,7 +6,7 @@ const tagData = {
     },
     "education": {
         name: "Education",
-        color: "pink"
+        color: "green"
     },
     "food": {
         name: "Food",
@@ -14,7 +14,7 @@ const tagData = {
     },
     "entertainment": {
         name: "Entertainment",
-        color: "orange"
+        color: "pink"
     },
     "vc": {
         name: "Venture Capital",
@@ -22,23 +22,23 @@ const tagData = {
     },
     "consulting": {
         name: "Consulting",
-        color: "orange"
+        color: "aqua"
     },
     "mm": {
         name: "Mass Media",
-        color: "orange"
+        color: "gold"
     },
     "sports": {
         name: "Sports",
-        color: "orange"
+        color: "magenta"
     },
     "finance": {
         name: "Finance",
-        color: "orange"
+        color: "turquoise"
     },
     "real estate": {
         name: "Real Estate",
-        color: "orange"
+        color: "yellow"
     },
 }
 
@@ -175,6 +175,7 @@ function connect() {
         else socket.send(JSON.stringify({
             header: packetType.participantRequestCoach,
             name: localStorage.getItem("username"),
+            fullname: localStorage.getItem("fullname"),
             coachName: panelOpened,
             msg: msg
         }));

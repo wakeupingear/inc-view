@@ -58,7 +58,7 @@ function generateRooms() {
   let i = 0;
   Object.keys(layoutData).forEach((location) => {
     let parent = holder;
-    let _color = statusColors[layoutData[location].status] + ";filter:brightness(" + (100 - i * 7) + "%);";
+    let _color = statusColors[layoutData[location].status] + ";filter:brightness(" + (100 - i * 6) + "%);";
     if (specialRooms.includes(location)) _color = layoutData[location].color;
     /*if ("inactive" in layoutData[location]) _color = "gray";
     if (location.indexOf("F2") !== -1) parent = f2;
@@ -79,8 +79,7 @@ function generateRooms() {
       location +
       "\");'></div>";*/
     //&&location!==currentLocation
-    for (var k = 0; k < 9; k++) {
-      let _color = statusColors[layoutData[location].status] + ";filter:brightness(" + (100 - i * 7) + "%);";
+    //for (var k = 0; k < 9; k++) {
       if (!("inactive" in layoutData[location]) && location !== currentLocation) {
         parent.innerHTML += "<div class='mapBoxText hoverable' data-tool-tip='" +
           layoutData[location].name +
@@ -90,7 +89,7 @@ function generateRooms() {
           "\");'>" + layoutData[location].name + "</div>";
         i++;
       }
-    }
+    //}
   });
 }
 

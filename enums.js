@@ -10,5 +10,6 @@ const packetType = Object.freeze(
         "participantGetCoaches": 8,
         "participantRequestCoach": 9,
         "coachRequested": 10,
-        "setStatus":11,
+        "setStatus": 11,
+        "moveRoom": 12
     });

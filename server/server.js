@@ -16,7 +16,8 @@ const locationToServer = {};
 const layoutData = JSON.parse(fs.readFileSync("./layout.json"));
 Object.values(layoutData).forEach(obj => {
   if (!("name" in obj)) obj.name = obj.roomName;
-  obj.status=1;
+  obj.status = 1;
+  obj.count = 0;
 });
 const participantLocations = JSON.parse(
   fs.readFileSync("./participantLocations.json")
@@ -51,7 +52,7 @@ function loadPeople() {
     if (!("photo" in coachData[coach]))
       coachData[coach].photo = "https://www.gravatar.com/avatar/" + uuidv4();
     if (!("bio" in coachData[coach])) coachData[coach].bio = "Bio goes here";
-    if (!("email" in coachData[coach])||coachData[coach].email==="") coachData[coach].email = "willf668@gmail.com";
+    if (!("email" in coachData[coach]) || coachData[coach].email === "") coachData[coach].email = "willf668@gmail.com";
     if (!("tags" in coachData[coach])) coachData[coach].tags = [];
   });
 
@@ -70,25 +71,6 @@ function loadPeople() {
 }
 loadPeople();
 
-/*
-async function processLineByLine() {
-    const obj = {};
-    let list = [];
-    const rl = readline.createInterface({
-        input: fs.createReadStream('coaches.txt'),
-        crlfDelay: Infinity
-    });
-    for await (const line of rl) {
-        const key = "\"" + line.toLowerCase().replace(" ", "") + "\""
-        obj[key] = { name: "\"" + line + "\"", email: "", tags: [] };
-    }
-
-    console.log(obj)
-}
-processLineByLine();
-*/
-//options.key.replace(/\\n/gm, '\n');
-//options.cert.replace(/\\n/gm, '\n');
 let io = require("socket.io");
 server = http
   .createServer((req, res) => {
@@ -103,29 +85,26 @@ io = io(server, {
   origins: "*",
 });
 
-/*https.createServer(options, function (req, res) {
-    const headers = {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
-        "Access-Control-Max-Age": 2592000, // 30 days
-    };
-    const urlParams = new URLSearchParams(req.url);
-    const username = urlParams.get("/?username");
-    let text = "unknown";
-    if (username in participantData) text = "participant:"+participantData[username].name;
-    else if (username in coachData) text = "coach:"+coachData[username].name;
-    res.writeHead(200, headers);
-    res.end(text);
-    console.log(text)
-}).listen(8443);*/
-
 let defaultServer = "";
+
+function updateCount(socket, oldRoom, newRoom) {
+  if (oldRoom !== "") layoutData[oldRoom].count-=1;
+  if (newRoom !== "") layoutData[newRoom].count+=1;
+  Object.values(coachClientList).forEach((coach) => {
+    coach.socket.send(JSON.stringify({
+      header: packetType.moveRoom,
+      decrease: coachClientList[socket.uid].viewingNode,
+      increase: newRoom
+    }));
+  });
+  coachClientList[socket.uid].viewingNode = newRoom;
+}
 
 function setClientViewing(socket, location) {
   //Assign a client to a specific node
-  coachClientList[socket.uid].viewingNode = location;
+  updateCount(socket, coachClientList[socket.uid].viewingNode, location);
   let data = -1;
-  if (location != "") {
+  if (location !== "") {
     data = serverList[locationToServer[location]];
     data.header = packetType.clientStartViewing;
     delete data.socket;
@@ -150,7 +129,7 @@ function disconnect(socket) {
   if (socket.clientType === -1) return;
   //Socket disconnects
   console.log("Disconnect");
-  if (socket.clientType===0&&!(socket.uid in serverList)) return;
+  if (socket.clientType === 0 && !(socket.uid in serverList)) return;
   if (socket.isNode) {
     //Node
     const _location = serverList[socket.uid].location;
@@ -160,7 +139,7 @@ function disconnect(socket) {
     Object.keys(coachClientList).forEach((client) => {
       //Disconnect clients from this node
       if (coachClientList[client].viewingNode === _location) {
-        setClientViewing(coachClientList[client].socket, "");
+        setClientViewing(coachClientList[client].socket, defaultServer);
       }
     });
 
@@ -168,6 +147,7 @@ function disconnect(socket) {
     delete serverList[socket.uid];
   } else if (socket.clientType === 1) {
     //Coach
+    updateCount(socket, coachClientList[socket.uid].viewingNode, "");
     delete coachClientList[socket.uid];
   } else if (socket.clientType === 2) {
     //Participant
@@ -183,7 +163,7 @@ io.on("connection", function (socket) {
     data = JSON.parse(data); //Parse data as a JS object
     switch (data.header) {
       case packetType.serverConnect: //Node connects
-        if (data.location !== null&&data.location in layoutData) {
+        if (data.location !== null && data.location in layoutData) {
           console.log("Node added");
           socket.isNode = true;
           if (socket.uid in serverList) {
@@ -249,7 +229,7 @@ io.on("connection", function (socket) {
           to: coachData[data.coachName].email,
           //cc: 'zach@tinyheadedkingdom.com',
           subject: "HW Inc - " + data.fullname + " is asking for help!",
-          text: "Hello,\n\n" + data.fullname + "'s team ("+layoutData[room].name+" at "+layoutData[room].roomName+") has requested your help!",
+          text: "Hello,\n\n" + data.fullname + "'s team (" + layoutData[room].name + " at " + layoutData[room].roomName + ") has requested your help!",
         };
         if (data.msg !== "") mailOptions.text += "\n\n'" + data.msg + "'";
         mailOptions.text +=
@@ -280,10 +260,13 @@ io.on("connection", function (socket) {
         });
         break;
       case packetType.setStatus:
-        socket.clientType=-1;
-        layoutData[data.location].status=data.status;
+        socket.clientType = -1;
+        layoutData[data.location].status = data.status;
         sendLayout();
         socket.disconnect();
+        break;
+      case packetType.moveRoom:
+        updateCount(socket, coachClientList[socket.uid].viewingNode, data.location);
         break;
       default:
         break;

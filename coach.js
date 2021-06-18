@@ -80,15 +80,17 @@ function generateRooms() {
       "\");'></div>";*/
     //&&location!==currentLocation
     //for (var k = 0; k < 9; k++) {
-      if (!("inactive" in layoutData[location]) && location !== currentLocation) {
-        parent.innerHTML += "<div class='mapBoxText hoverable' data-tool-tip='" +
-          layoutData[location].name +
-          "' style='background-color:" + _color +
-          "' onclick='setRoomChange(\"" +
-          location +
-          "\");'>" + layoutData[location].name + "</div>";
-        i++;
-      }
+    if (!("inactive" in layoutData[location])) {
+      newDiv = "<div class='mapBoxText hoverable' data-tool-tip='" +
+        layoutData[location].name +
+        "' style='background-color:" + _color + ";";
+      if (location !== currentLocation) newDiv += " border: 2vw solid var(--c_white);"
+      newDiv += "' onclick='setRoomChange(\"" +
+        location +
+        "\");'>(" + layoutData[location].count + ") " + layoutData[location].name + "</div>";
+      parent.innerHTML += newDiv;
+      i++;
+    }
     //}
   });
 }
@@ -117,6 +119,7 @@ function setupButtonList() {
 
 function connect() {
   const socket = io('https://node.hwincview.com', {
+  //const socket = io('http://localhost:8080', {
     transports: ['websocket'],
     'reconnection': true,
     'reconnectionDelay': 3000,
@@ -196,6 +199,11 @@ function connect() {
           _data.name +
           " is asking for help!</div>";
         createButtons();
+        break;
+      case packetType.moveRoom:
+        if (_data.decrease !== "") layoutData[_data.decrease].count--;
+        if (_data.increase !== "") layoutData[_data.increase].count++;
+        if (_data.increase !== "" || _data.decrease !== "") generateRooms();
         break;
       default:
         break;

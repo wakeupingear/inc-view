@@ -1,14 +1,15 @@
 let locationStr = localStorage.getItem("location");
 function setLocation(newLocation) {
-    if (newLocation===undefined||newLocation===null) return;
+    if (newLocation === undefined || newLocation === null) return;
     locationStr = newLocation;
     localStorage.setItem("location", locationStr);
     location.reload();
 }
-if (locationStr===undefined||locationStr===null) setLocation(Math.random().toString(36).substring(7));
+if (locationStr === undefined || locationStr === null) setLocation(Math.random().toString(36).substring(7));
 
 function connect() {
     const socket = io('https://node.hwincview.com', {
+    //const socket = io('http://localhost:8080', {
         transports: ['websocket'],
         'reconnection': true,
         'reconnectionDelay': 3000,
